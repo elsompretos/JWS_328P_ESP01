@@ -1,0 +1,39 @@
+0 Lat  : -6.21
+16 Long  : 106.85
+32 Timezone  : 7.00
+ 
+36 Adj SUBUH  : 2
+38 Adj ZUHUR  : 2
+40 Adj ASHAR  : 2
+42 Adj MAGHRIB  : 2
+44 Adj ISYA  : 2
+46 Adj IMSAK  : 2
+48 Adj TERBIT  : 2
+50 Adj DHUHA  : 2
+ 
+52 Tpl SUBUH  : 1
+54 Tpl DZUHUR  : 0
+56 Tpl ASHAR  : 1
+58 Tpl MAGHRIB  : 0
+60 Tpl ISYA : 1
+62 Tpl IMSAK  : 0
+64 Tpl TERBIT  : 1
+66 Tpl DHUHA : 0
+ 
+68 Iqo SUBUH  : 2
+70 Iqo ZUHUR  : 2
+72 Iqo ASHAR  : 2
+74 Iqo MAGHRIB  : 2
+76 Iqo ISYA  : 2
+78 Lama Adzan : 4
+80 Lama Imsak : 0
+ 
+82 Adjust Hij : 1
+84 Adjust Kecerahan : 10
+86 Adjust Volume : 20
+ 
+90 Panjang Nama Masjid : 25
+93 Nama Masjid : Masjid Raya Akbar Maulan
+ 
+140 Panjang info2 : 20
+143 info 2 : Sudahkah Anda Shola
