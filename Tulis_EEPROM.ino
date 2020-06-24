@@ -122,7 +122,7 @@ void setup() {
 //  NAMA MASJID
 //  ================
 
-  byte panjang_nama_masjid = namamasjid.length();
+  byte panjang_nama_masjid = namamasjid.length() + 1; // buat nano, buat uno hilangin + 1;
   EEPROM.write(90, panjang_nama_masjid);
 
   char charbuf[panjang_nama_masjid];
@@ -133,7 +133,7 @@ void setup() {
 //  INFO 2 Max 60
 //  ================
 
-  byte panjang_info_2 = info2.length();
+  byte panjang_info_2 = info2.length() + 1; // buat nano, buat uno hilangin + 1;
   EEPROM.write(140, panjang_info_2);
 
   char charbuf1[panjang_info_2];
