@@ -646,9 +646,6 @@ function setKoreksi() {
 };
 
 
-simpanKoreksi
-
-
 </script>
 </html>
 
