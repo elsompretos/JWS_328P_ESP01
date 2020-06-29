@@ -95,6 +95,8 @@ void scan(){
   display.refresh();
 }
 void setup(){
+ 
+  EEPROM.setMaxAllowedWrites(10000);
 
   Serial.begin (9600);
   mp3_set_serial (Serial); 
