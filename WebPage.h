@@ -125,7 +125,7 @@ table, th, td {
   <tbody>
     <tr>
       <td >Tanggal</td>
-      <td ><form><input style='text-align:center' min='24-06-2020' name='date' type='date' ></td>
+      <td ><form onsubmit='setWaktu()'><input style='text-align:center' min='24-06-2020' name='date' type='date' ></td>
     </tr>
     <tr>
       <td >Jam</td>
@@ -133,15 +133,15 @@ table, th, td {
     </tr>
     <tr> 
       <td >Hijriyah</td>
-      <td ><input style='text-align:center' type='number' name='hijr' id='hijr' value='1'></td> 
+      <td ><input style='text-align:center' type='number' name='adjhijr' id='adjhijr' value='1'></td> 
     </tr>
     <tr> 
       <td >Kecerahan</td>
-      <td ><input style='text-align:center' type='number' name='cerah' id='cerah' value='10'></td> 
+      <td ><input style='text-align:center' type='number' name='adjcerah' id='adjcerah' value='10'></td> 
     </tr>
     <tr> 
       <td >Volume</td>
-      <td ><input style='text-align:center' type='number' name='volume' id='volume' value='15'></td> 
+      <td ><input style='text-align:center' type='number' name='adjvolume' id='adjvolume' value='15'></td> 
     </tr>
     <tr>
     <td style='text-align:center' colspan='2'><input type='submit' value='Kirim'></form></td>
@@ -157,15 +157,15 @@ table, th, td {
   <tbody>
     <tr>
       <td >Latitude</td>
-      <td ><form><input style='text-align:center' type='text' name='latitude' id='latitude' value='-6.21462'></td>
+      <td ><form onsubmit='setKoordinat()'><input style='text-align:center' type='text' name='latitude' id='latitude'></td>
     </tr>
     <tr>
       <td >Longitude</td>
-      <td ><input style='text-align:center' type='text' name='longitude' id='longitude' value='106.84513'></td>
+      <td ><input style='text-align:center' type='text' name='longitude' id='longitude'></td>
     </tr>
     <tr>
       <td >TimeZone</td>
-      <td ><input style='text-align:center' type='number' name='timezone' id='timezone' value='7'></td>
+      <td ><input style='text-align:center' type='number' name='timezone' id='timezone'></td>
     </tr>
     <tr>
       <td style='text-align:center' colspan='2'><input type='submit' value='Kirim'></form> </td>
@@ -181,14 +181,14 @@ table, th, td {
   <tbody>
     <tr>
       <td >Masjid</td>
-      <td ><form><input style='text-align:center' type='text' name='namamasjid' id='namamasjid' value='Masjid Akbar Maulana'></td>
+      <td ><form onsubmit='setNamamasjid()'><input style='text-align:center' type='text' name='namamasjid' id='namamasjid' value='Masjid Akbar Maulana'></td>
     </tr>
     <tr>
       <td style='text-align:center' colspan='2'><input type='submit' value='Kirim'></form></td>
     </tr>
     <tr>
       <td >Info</td>
-      <td ><form><input style='text-align:center' type='text' name='info1' id='info1' value='Sudahkah Anda Sholat'></td>
+      <td ><form onsubmit='setNamamasjid()'><input style='text-align:center' type='text' name='info1' id='info1' value='Sudahkah Anda Sholat'></td>
     </tr>
     <tr>
       <td style='text-align:center' colspan='2'><input type='submit' value='Kirim'></form></td>
@@ -204,7 +204,7 @@ table, th, td {
   <tbody>
     <tr>
       <td >Adzan</td>
-      <td ><form><input style='text-align:center' type='number' name='lamaadzan' id='lamaadzan' value='4'></td>
+      <td ><form onsubmit='setIqomah()'><input style='text-align:center' type='number' name='lamaadzan' id='lamaadzan' value='4'></td>
       <td ></td>
       <td ></td>
     </tr>
@@ -241,7 +241,7 @@ table, th, td {
   <tbody>
     <tr>
       <td >Imsak</td>
-      <td ><form><input style='text-align:center' type='number' name='korimsak' id='korimsak' value='2'></td>
+      <td ><form onsubmit='setKoreksi()'><input style='text-align:center' type='number' name='korimsak' id='korimsak' value='2'></td>
       <td >Subuh</td>
       <td ><input style='text-align:center' type='number' name='korsubuh' id='korsubuh' value='2'></td>
     </tr>
@@ -272,8 +272,11 @@ table, th, td {
 </div>
 </body>
 </html>
+
 <script>
+
 var xmlHttp=createXmlHttpObject();
+
 function createXmlHttpObject(){
  if(window.XMLHttpRequest){
     xmlHttp=new XMLHttpRequest();
@@ -296,7 +299,15 @@ function handleServerResponse(){
    xmldoc = xmlResponse.getElementsByTagName('Hijriyah');
    message = xmldoc[0].firstChild.nodeValue;
    document.getElementById('adhijrii').innerHTML=message;
-   document.getElementById('hijr').value=message;
+   document.getElementById('adjhijr').value=message;
+
+   xmldoc = xmlResponse.getElementsByTagName('Kecerahan');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('adjcerah').value=message;
+
+   xmldoc = xmlResponse.getElementsByTagName('Volume');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('adjvolume').value=message
  }
 }
 function proseskoordinat(){
@@ -400,9 +411,9 @@ function handleIqomah(){
    xmldoc = xmlResponse.getElementsByTagName('LamZan');
    message = xmldoc[0].firstChild.nodeValue;
    document.getElementById('lamaadzan').value=message;
-   xmldoc = xmlResponse.getElementsByTagName('LamSak');
-   message = xmldoc[0].firstChild.nodeValue;
-   document.getElementById('lamaimsak').value=message;
+//   xmldoc = xmlResponse.getElementsByTagName('LamSak');
+//   message = xmldoc[0].firstChild.nodeValue;
+//   document.getElementById('lamaimsak').value=message;
    xmldoc = xmlResponse.getElementsByTagName('ISub');
    message = xmldoc[0].firstChild.nodeValue;
    document.getElementById('iqomahsubuh').value=message;
@@ -506,6 +517,7 @@ function t4_koreksi() {
     t.style.display = 'none';
   }
 }
+
 function setInfo() {
   var namamasjid = document.getElementById('namamasjid').value;
   var info1 = document.getElementById('info1').value;
@@ -522,6 +534,121 @@ function setInfo() {
   xhr.open('POST', url, true);
   xhr.send(JSON.stringify(datainfo));
 };
+function setWaktu() {
+
+ 
+  
+  var adjhijr = document.getElementById('adjhijr').value;
+  var adjcerah = document.getElementById('adjcerah').value;
+  var adjvolume = document.getElementById('adjvolume').value;
+
+  var datainfoWaktu = {adjhijr:adjhijr, adjcerah:adjcerah, adjvolume:adjvolume};
+  
+  var xhr = new XMLHttpRequest();
+  var url = '/simpanWaktu';
+  xhr.onreadystatechange = function() {
+    if(this.onreadyState == 4  && this.status == 200) {
+      console.log(xhr.responseText);
+    }
+  };
+  xhr.open('POST', url, true);
+  xhr.send(JSON.stringify(datainfoWaktu));
+   
+  alert("Data Waktu, Kecerahan Dan Volume Berhasil Diubah");
+};
+function setKoordinat() {
+
+  var latitude = document.getElementById('latitude').value;
+  var longitude = document.getElementById('longitude').value;
+  var zonawaktu = document.getElementById('timezone').value;
+
+  var datainfoKoordinat = {latitude:latitude, longitude:longitude, zonawaktu:zonawaktu};
+  
+  var xhr = new XMLHttpRequest();
+  var url = '/simpanKoordinat';
+  xhr.onreadystatechange = function() {
+    if(this.onreadyState == 4  && this.status == 200) {
+      console.log(xhr.responseText);
+    }
+  };
+  xhr.open('POST', url, true);
+  xhr.send(JSON.stringify(datainfoKoordinat));
+   
+  alert("Data Lokasi Berhasil Diubah");
+};
+function setNamamasjid() {
+
+  var namamasjid = document.getElementById('namamasjid').value;
+  var info1 = document.getElementById('info1').value;
+
+  var dataNamaMasjid = {namamasjid:namamasjid, info1:info1};
+  
+  var xhr = new XMLHttpRequest();
+  var url = '/simpanNamamasjid';
+  xhr.onreadystatechange = function() {
+    if(this.onreadyState == 4  && this.status == 200) {
+      console.log(xhr.responseText);
+    }
+  };
+  xhr.open('POST', url, true);
+  xhr.send(JSON.stringify(dataNamaMasjid));
+   
+  alert("Data Nama Masjid dan Informasi Berhasil Diubah");
+};
+function setIqomah() {
+
+  var lamaadzan = document.getElementById('lamaadzan').value;
+  var lamaimsak = "0";
+  var iqomahsubuh = document.getElementById('iqomahsubuh').value;
+  var iqomahdzuhur = document.getElementById('iqomahdzuhur').value;
+  var iqomahashar = document.getElementById('iqomahashar').value;
+  var iqomahmaghrib = document.getElementById('iqomahmaghrib').value;
+  var iqomahisya = document.getElementById('iqomahisya').value;
+
+  var dataIqomah = {lamaadzan:lamaadzan, lamaimsak:lamaimsak, iqomahsubuh:iqomahsubuh, iqomahdzuhur:iqomahdzuhur, iqomahashar:iqomahashar, iqomahmaghrib:iqomahmaghrib, iqomahisya:iqomahisya};
+  
+  var xhr = new XMLHttpRequest();
+  var url = '/simpanIqomah';
+  xhr.onreadystatechange = function() {
+    if(this.onreadyState == 4  && this.status == 200) {
+      console.log(xhr.responseText);
+    }
+  };
+  xhr.open('POST', url, true);
+  xhr.send(JSON.stringify(dataIqomah));
+   
+  alert("Data Adzan dan Iqomah Berhasil Diubah");
+};
+function setKoreksi() {
+
+  var korimsak = document.getElementById('korimsak').value;
+  var korsubuh = document.getElementById('korsubuh').value;
+  var korterbit = document.getElementById('korterbit').value;
+  var kordhuha = document.getElementById('kordhuha').value;
+  var kordzuhur = document.getElementById('kordzuhur').value;
+  var korashar = document.getElementById('korashar').value;
+  var kormaghrib = document.getElementById('kormaghrib').value;
+  var korisya = document.getElementById('korisya').value;
+
+  var dataKoreksi = {korimsak:korimsak, korsubuh:korsubuh, korterbit:korterbit, kordhuha:kordhuha, kordzuhur:kordzuhur, korashar:korashar, kormaghrib:kormaghrib, korisya:korisya};
+  
+  var xhr = new XMLHttpRequest();
+  var url = '/simpanKoreksi';
+  xhr.onreadystatechange = function() {
+    if(this.onreadyState == 4  && this.status == 200) {
+      console.log(xhr.responseText);
+    }
+  };
+  xhr.open('POST', url, true);
+  xhr.send(JSON.stringify(dataKoreksi));
+   
+  alert("Data Koreksi Waktu Berhasil Diubah");
+};
+
+
+simpanKoreksi
+
+
 </script>
 </html>
 
