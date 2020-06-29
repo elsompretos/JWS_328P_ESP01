@@ -96,7 +96,7 @@ void scan(){
 }
 void setup(){
 
-  Serial.begin (115200);
+  Serial.begin (9600);
   mp3_set_serial (Serial); 
   
   b_volume = EEPROM.readInt(63); 
