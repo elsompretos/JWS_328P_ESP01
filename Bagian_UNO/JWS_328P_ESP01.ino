@@ -99,10 +99,8 @@ void setup(){
   Serial.begin (9600);
   mp3_set_serial (Serial); 
   
-  b_volume = EEPROM.readInt(63); 
+  b_volume = EEPROM.readInt(86); 
   mp3_set_volume (b_volume);
-
-  // mp3_play (16);
 
   DDRD |= (1<<DDD2) ;//pin 2 is in output mode
 
@@ -119,7 +117,7 @@ void setup(){
     delay(250);
  }
 
-  b_bright = EEPROM.readInt(78); // Baca EEPROM kecerahan
+  b_bright = EEPROM.readInt(84); // Baca EEPROM kecerahan
   
   Timer1.initialize(2000);
   Timer1.attachInterrupt(scan);
