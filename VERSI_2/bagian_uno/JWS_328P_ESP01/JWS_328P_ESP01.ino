@@ -1,4 +1,6 @@
 /*
+Perbaikan Tanggal 30 Juni 2020
+Menggunakan Librray EEPROM bawaan Arduino IDE
 0 Latitude : -6.29
 5 Longitude : 106.82
 10 Timezone : 7.00
