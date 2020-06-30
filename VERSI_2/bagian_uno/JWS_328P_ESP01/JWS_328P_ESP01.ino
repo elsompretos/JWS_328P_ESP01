@@ -791,7 +791,7 @@ void AMBIL_WAKTU_SHOLAT(){            // AMBIL WAKTU SHOLAT
 void CERAH_VOLUME(){
   EEPROM.get(63, b_bright); // Baca EEPROM kecerahan
   Timer1.pwm(9,b_bright);
-  EEPROM.get(62, b_volume); // Baca EEPROM volume
+  EEPROM.get(65, b_volume); // Baca EEPROM volume
   mp3_set_volume (b_volume);
 }
 
