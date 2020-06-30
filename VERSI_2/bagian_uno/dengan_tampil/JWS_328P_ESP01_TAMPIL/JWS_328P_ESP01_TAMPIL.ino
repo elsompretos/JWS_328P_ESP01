@@ -68,7 +68,8 @@ byte evt_0 = 0, evt_1 = 0, evt_2 = 1, evt_3 = 1, evt_4 = 1, evt_5 = 1, evt_6 = 1
 int iqm_ee, sis_wkt_iqo, du_iq, iqm_menit, iqm_menit_sisa, iqm_detik;
 
 int b_a[8];
-int b_t[8], btpl_subuh;
+int b_t[8], btpl_subuh, biqo_subuh, blama_imsak;
+String bnm_mesjid;
   
 int Tahun;
 byte Bulan, Tanggal, Jam, Menit, Detik, hariIni;
@@ -203,10 +204,16 @@ switch (mode) {
         if(tx_ser.substring(0,2) == "SJ"){
           Serial.println(tx_ser);
 
+          bnm_mesjid = readString(69);
+
           rtc.adjust(DateTime(tx_ser.substring(18,22).toInt(), tx_ser.substring(15,17).toInt(), tx_ser.substring(12,14).toInt(), tx_ser.substring(3,5).toInt(), tx_ser.substring(6,8).toInt(), tx_ser.substring(9,11).toInt())); 
           EEPROM.put(63, tx_ser.substring(23,25).toInt()); // Adj Hijriyah
           EEPROM.put(65, tx_ser.substring(26,28).toInt()); // Adj Kecerahan
           EEPROM.put(67, tx_ser.substring(29,31).toInt()); // Adj Volume
+
+          writeString(69, bnm_mesjid);
+
+          
           
           CERAH_VOLUME();
           
@@ -216,12 +223,17 @@ switch (mode) {
        // Setting lama Iqomah === IQ=02-02-02-02-02-04 === IQ=03-03-03-03-03-05
        else if(tx_ser.substring(0,2) == "IQ"){ 
           Serial.println(tx_ser);
+
+          EEPROM.get(61, blama_imsak);
+          
           EEPROM.put(49, tx_ser.substring(3,5).toInt());
           EEPROM.put(51, tx_ser.substring(6,8).toInt());
           EEPROM.put(53, tx_ser.substring(9,11).toInt());
           EEPROM.put(55, tx_ser.substring(12,14).toInt());
           EEPROM.put(57, tx_ser.substring(15,17).toInt());
           EEPROM.put(59, tx_ser.substring(18,20).toInt());
+
+          EEPROM.put(61, blama_imsak);
    
           // for(int pp = 2; pp < 15; pp=pp+2){
           //    EEPROM.writeInt(66+pp, tx_ser.substring(pp,pp+2).toInt());
@@ -247,6 +259,28 @@ switch (mode) {
          EEPROM.put(29, tx_ser.substring(24,26).toInt());
 
          EEPROM.put(32, btpl_subuh);
+
+         
+          
+         BUZZ();
+       }
+
+       // Setting Tampil waktu sholat === TP=01-01-01-01-01-01-00-00
+       else if(tx_ser.substring(0,2) == "TP"){
+         Serial.println(tx_ser);
+
+         EEPROM.get(49, biqo_subuh);
+         
+         EEPROM.put(32, tx_ser.substring(3,5).toInt());
+         EEPROM.put(34, tx_ser.substring(6,8).toInt());
+         EEPROM.put(36, tx_ser.substring(9,11).toInt());
+         EEPROM.put(38, tx_ser.substring(12,14).toInt());
+         EEPROM.put(40, tx_ser.substring(15,17).toInt());
+         EEPROM.put(42, tx_ser.substring(18,20).toInt());
+         EEPROM.put(44, tx_ser.substring(21,23).toInt());
+         EEPROM.put(46, tx_ser.substring(24,26).toInt());
+
+         EEPROM.put(49, biqo_subuh);
 
          
           
