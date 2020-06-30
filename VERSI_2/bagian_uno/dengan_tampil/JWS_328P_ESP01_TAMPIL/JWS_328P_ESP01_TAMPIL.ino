@@ -265,7 +265,7 @@ switch (mode) {
          BUZZ();
        }
 
-       // Setting Tampil waktu sholat === TP=01-01-01-01-01-01-00-00
+       // Setting Tampil waktu sholat === TP=01-01-01-01-01-01-01-01
        else if(tx_ser.substring(0,2) == "TP"){
          Serial.println(tx_ser);
 
