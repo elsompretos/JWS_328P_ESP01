@@ -1,5 +1,6 @@
 //char namaBulanHijriyah[][12] = {"Muharram", "Safar", "RabiulAwal", "RabiulAkhir", "JumadilAwal", "JumadilAkhir", "Rajab", "Syaban", "Ramadhan", "Syawal", "Dzulqodah", "Dzulhijjah"};
-const char namaBulanHijriyah[][14] PROGMEM = {"Muharram", "Safar", "RabiulAwal", "RabiulAkhir", "JumadilAwal", "JumadilAkhir", "Rajab", "Syaban", "Ramadhan", "Syawal", "Dzulqodah", "Dzulhijjah"};
+// const char namaBulanHijriyah[][14] PROGMEM = {"Muharram", "Safar", "RabiulAwal", "RabiulAkhir", "JumadilAwal", "JumadilAkhir", "Rajab", "Syaban", "Ramadhan", "Syawal", "Dzulqodah", "Dzulhijjah"};
+const char namaBulanHijriyah[][15] PROGMEM = {"Muharram", "Safar", "Rabiul Awal", "Rabiul Akhir", "Jumadil Awal", "Jumadil Akhir", "Rajab", "Syaban", "Ramadhan", "Syawal", "Dzul Qaidah", "Dzul Hijjah"};
 
 String Kuwaiti_algorithm (double tanggalH, double bulanH, double tahunH, int hariH, double adj_hij){
   
