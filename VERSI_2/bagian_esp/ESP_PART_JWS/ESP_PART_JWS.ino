@@ -34,6 +34,7 @@ ESP8266HTTPUpdateServer httpUpdater;
 String kirim;
 String bulan, tanggal, tahun, jam, menit, hijri, cerah, volume, adzan, iqosubuh, iqodzuhur, iqoashar, iqomaghrib, iqoisya;
 String korimsak, korsubuh, korterbit, kordhuha, kordzuhur, korashar, kormaghrib, korisya;
+String tpl_imsak, tpl_subuh, tpl_terbit, tpl_dhuha, tpl_dzuhur, tpl_ashar, tpl_maghrib, tpl_isya;
 
 //==== JSON ====
 const char *fileadjhijri = "/adjhijrii.json";
@@ -49,8 +50,10 @@ const char *filelatilong = "/latilong.json";
 float latitude, longitude; int zonawaktu;
 
 const char *filekoreksi = "/koreksi.json";
-// int koreimsak, koresubuh, koreterbit, koredhuha, koredzuhur, koreashar, koremaghrib, koreisya;
 int b_a[8];
+
+const char *filetampil = "/tampil.json";
+int b_t[8];
 
 //==== XML ====
 String XML;
@@ -58,9 +61,7 @@ String XML_IQOMAH;
 String XML_MASJID;
 String XML_KOORDINAT;
 String XML_KOREKSI;
-
-
-
+String XML_TAMPIL;
 
 void setup() {
   Serial.begin(9600);
@@ -75,6 +76,7 @@ void setup() {
   loadMasjidConfig(filemasjid);
   loadIqomahConfig(fileiqomah); 
   loadKoreksi(filekoreksi);
+  loadTampil(filetampil);
   
   // ==============
   // ==== WIFI ====
@@ -158,6 +160,22 @@ void setup() {
       kirim = "KR=" + korsubuh + "-" + kordzuhur + "-" + korashar + "-" + kormaghrib  + "-" + korisya + "-" + korimsak + "-" + korterbit  + "-" + kordhuha;
       Serial.println(kirim);
     }
+
+    if (server.hasArg("tpl_imsak")) {
+      // tpl_imsak=1&tpl_subuh=1&tpl_terbit=1&tpl_dhuha=1&tpl_dzuhur=1&tpl_ashar=1&tpl_maghrib=1&tpl_isya=1
+      
+      if ((server.arg(0)).toInt() < 10){ tpl_imsak = "0" + server.arg(0);  } else { tpl_imsak = server.arg(0);  }
+      if ((server.arg(1)).toInt() < 10){ tpl_subuh = "0" + server.arg(1);  } else { tpl_subuh = server.arg(1);  }
+      if ((server.arg(2)).toInt() < 10){ tpl_terbit = "0" + server.arg(2); } else { tpl_terbit = server.arg(2); }
+      if ((server.arg(3)).toInt() < 10){ tpl_dhuha = "0" + server.arg(3);  } else { tpl_dhuha = server.arg(3);  }
+      if ((server.arg(4)).toInt() < 10){ tpl_dzuhur = "0" + server.arg(4);  } else { tpl_dzuhur = server.arg(4);  }
+      if ((server.arg(5)).toInt() < 10){ tpl_ashar = "0" + server.arg(5); } else { tpl_ashar = server.arg(5); }
+      if ((server.arg(6)).toInt() < 10){ tpl_maghrib = "0" + server.arg(6);  } else { tpl_maghrib = server.arg(6);  }
+      if ((server.arg(7)).toInt() < 10){ tpl_isya = "0" + server.arg(7); } else { tpl_isya = server.arg(7); }
+      
+      kirim = "TP=" + tpl_imsak + "-" + tpl_subuh + "-" + tpl_terbit + "-" + tpl_dhuha  + "-" + tpl_dzuhur + "-" + tpl_ashar + "-" + tpl_maghrib  + "-" + tpl_isya;
+      Serial.println(kirim);
+    }
     
   });
   
@@ -166,12 +184,15 @@ void setup() {
   server.on("/xmlinfomasjid", handleXMLInfoMasjid); // http://192.168.4.1/xmlinfomasjid
   server.on("/xmliqomah", handleXMLIqomah); // http://192.168.4.1/xmliqomah
   server.on("/xmlkoreksi", handleXMLKoreksi); // http://192.168.4.1/xmlkoreksi
+  server.on("/xmltampil", handleXMLTampil); // http://192.168.4.1/xmltampil
+
 
   server.on("/simpanWaktu", HTTP_POST, handleSimpanWaktu);
   server.on("/simpanKoordinat", HTTP_POST, handleSimpanKoordinat);
   server.on("/simpanNamamasjid", HTTP_POST, handleSimpaNamamasjid);
   server.on("/simpanIqomah", HTTP_POST, handleSimpanIqomah);
   server.on("/simpanKoreksi", HTTP_POST, handleSimpanKoreksi);
+  server.on("/simpanTampil", HTTP_POST, handleSimpanTampil);
   
   // ================
   // ==== SERVER ====
@@ -382,6 +403,50 @@ void loadKoreksi(const char *filekoreksi){          //          Load Koreksi    
   
   configKoreksi.close();
 }
+void loadTampil(const char *filetampil){            //          Load Koreksi             //
+  File configTampil = SPIFFS.open(filetampil, "r");
+  
+  if (!configTampil) {
+    Serial.println("Gagal membuka pengaturan Koreksi Waktu");
+    makeTampil();
+    Serial.println("Sistem restart...");
+    ESP.restart();
+  }
+
+  size_t size = configTampil.size();
+  std::unique_ptr<char[]> buf(new char[size]);
+  configTampil.readBytes(buf.get(), size);
+
+  DynamicJsonDocument doc(1024);
+  DeserializationError error = deserializeJson(doc, buf.get());
+
+  if (error) {
+    Serial.println("Gagal parse pengaturan Koreksi Tampilan");
+    return;
+  }
+
+  b_t[0] = doc["tpl_imsak"];
+  b_t[1] = doc["tpl_subuh"];
+  b_t[2] = doc["tpl_terbit"]; 
+  b_t[3] = doc["tpl_dhuha"];
+  b_t[4] = doc["tpl_dzuhur"];
+  b_t[5] = doc["tpl_ashar"];
+  b_t[6] = doc["tpl_maghrib"];
+  b_t[7] = doc["tpl_isya"];  
+
+     
+  Serial.println("=========================================");
+  Serial.print("tpl imsak : "); Serial.println(b_t[0]);
+  Serial.print("tpl subuh : "); Serial.println(b_t[1]);
+  Serial.print("tpl terbit : "); Serial.println(b_t[2]);
+  Serial.print("tpl dhuha : "); Serial.println(b_t[3]);
+  Serial.print("tpl dzuhur : "); Serial.println(b_t[4]);
+  Serial.print("tpl ashar : "); Serial.println(b_t[5]);
+  Serial.print("tpl maghrib : "); Serial.println(b_t[6]);
+  Serial.print("tpl isya : "); Serial.println(b_t[7]);
+  
+  configTampil.close();
+}
 
 void makeHijriConfig(){                             //        Kalau Gak Ada Buat...      //
   String dataawal = "{\"adjhijr\":1,\"adjcerah\":10,\"adjvolume\":100}";
@@ -520,6 +585,33 @@ void makeKoreksi(){
     
     makeFileKoreksi.close();
     Serial.println("Berhasil membuat file koreksi.json");
+  
+  }   
+}
+void makeTampil(){
+  String dataawaltampil = "{\"tpl_imsak\": \"1\",\"tpl_subuh\": \"1\",\"tpl_terbit\": \"1\",\"tpl_dhuha\": \"1\",\"tpl_dzuhur\": \"1\",\"tpl_ashar\": \"1\",\"tpl_maghrib\": \"1\",\"tpl_isya\": \"1\"}";
+
+  DynamicJsonDocument doc(1024);
+  DeserializationError error = deserializeJson(doc, dataawaltampil);
+
+  File makeFileTampil = SPIFFS.open(filetampil, "w");
+  if (!makeFileTampil) {
+    Serial.println("Gagal membuat file tampil.json untuk ditulis mungkin partisi belum dibuat");
+    return;
+  }
+  
+  serializeJson(doc, makeFileTampil);
+
+  if (error) {
+    
+    Serial.print(F("deserializeJson() gagal kode sebagai berikut: "));
+    Serial.println(error.c_str());
+    return;
+    
+  } else {
+    
+    makeFileTampil.close();
+    Serial.println("Berhasil membuat file tapil.json");
   
   }   
 }
@@ -668,6 +760,49 @@ void XMLKoreksi(){
 void handleXMLKoreksi(){
   XMLKoreksi();
   server.send(200,"text/xml", XML_KOREKSI);
+}
+void XMLTampil(){
+
+  XML_TAMPIL="<?xml version='1.0'?>";
+  XML_TAMPIL+="<t>";
+  
+    XML_TAMPIL+="<TplImsak>";
+    XML_TAMPIL+= b_t[0];
+    XML_TAMPIL+="</TplImsak>"; 
+
+    XML_TAMPIL+="<TplSubuh>";
+    XML_TAMPIL+= b_t[1];
+    XML_TAMPIL+="</TplSubuh>"; 
+
+    XML_TAMPIL+="<TplTerbit>";
+    XML_TAMPIL+= b_t[2];
+    XML_TAMPIL+="</TplTerbit>"; 
+
+    XML_TAMPIL+="<TplDhuha>";
+    XML_TAMPIL+= b_t[3];
+    XML_TAMPIL+="</TplDhuha>";
+
+    XML_TAMPIL+="<TplDzuhur>";
+    XML_TAMPIL+= b_t[4];
+    XML_TAMPIL+="</TplDzuhur>"; 
+
+    XML_TAMPIL+="<TplAshar>";
+    XML_TAMPIL+= b_t[5];
+    XML_TAMPIL+="</TplAshar>"; 
+
+    XML_TAMPIL+="<TplMaghrib>";
+    XML_TAMPIL+= b_t[6];
+    XML_TAMPIL+="</TplMaghrib>"; 
+
+    XML_TAMPIL+="<TplIsya>";
+    XML_TAMPIL+= b_t[7];
+    XML_TAMPIL+="</TplIsya>"; 
+    
+  XML_TAMPIL+="</t>"; 
+}
+void handleXMLTampil(){
+  XMLTampil();
+  server.send(200,"text/xml", XML_TAMPIL);
 }
 
 void handleSimpanWaktu() {
@@ -825,5 +960,36 @@ void handleSimpanKoreksi(){
     Serial.println("Berhasil mengubah configFileJws");
 
     loadKoreksi(filekoreksi);
+  }   
+}
+void handleSimpanTampil(){
+  String datainfoTampil = server.arg("plain");
+  
+  Serial.println(datainfoTampil);
+  
+  DynamicJsonDocument doc(1024);
+  DeserializationError error = deserializeJson(doc, datainfoTampil);
+
+  File configFileTampil = SPIFFS.open(filetampil, "w");
+
+  if (!configFileTampil) {
+    Serial.println("Gagal membuka File Tampil untuk ditulis");
+    return;
+  }
+
+  serializeJson(doc, configFileTampil);
+
+  if (error) {
+    
+    Serial.print(F("deserializeJson() gagal kode sebagai berikut: "));
+    Serial.println(error.c_str());
+    return;
+    
+  } else {
+    
+    configFileTampil.close();
+    Serial.println("Berhasil mengubah configFileJws");
+
+    loadTampil(filetampil);
   }   
 }

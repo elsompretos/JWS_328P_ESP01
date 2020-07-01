@@ -1,7 +1,6 @@
 String message;
 
 char setwaktu[] PROGMEM = R"=====(
-
 <!DOCTYPE HTML>
 <html>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
@@ -133,15 +132,15 @@ table, th, td {
     </tr>
     <tr> 
       <td >Hijriyah</td>
-      <td ><input style='text-align:center' type='number' name='adjhijr' id='adjhijr' value='1'></td> 
+      <td ><input style='text-align:center' type='number' name='adjhijr' id='adjhijr' value='1' min='0' max='1'></td> 
     </tr>
     <tr> 
       <td >Kecerahan</td>
-      <td ><input style='text-align:center' type='number' name='adjcerah' id='adjcerah' value='10'></td> 
+      <td ><input style='text-align:center' type='number' name='adjcerah' id='adjcerah' value='10' min='10' max='99'></td> 
     </tr>
     <tr> 
       <td >Volume</td>
-      <td ><input style='text-align:center' type='number' name='adjvolume' id='adjvolume' value='15'></td> 
+      <td ><input style='text-align:center' type='number' name='adjvolume' id='adjvolume' value='15' min='10' max='99'></td> 
     </tr>
     <tr>
     <td style='text-align:center' colspan='2'><input type='submit' value='Kirim'></form></td>
@@ -165,7 +164,7 @@ table, th, td {
     </tr>
     <tr>
       <td >TimeZone</td>
-      <td ><input style='text-align:center' type='number' name='timezone' id='timezone'></td>
+      <td ><input style='text-align:center' type='number' name='timezone' id='timezone' min='7' max='9'></td>
     </tr>
     <tr>
       <td style='text-align:center' colspan='2'><input type='submit' value='Kirim'></form> </td>
@@ -181,14 +180,14 @@ table, th, td {
   <tbody>
     <tr>
       <td >Masjid</td>
-      <td ><form onsubmit='setNamamasjid()'><input style='text-align:center' type='text' name='namamasjid' id='namamasjid' value='Masjid Akbar Maulana'></td>
+      <td ><form onsubmit='setNamamasjid()'><input style='text-align:center' type='text' name='namamasjid' id='namamasjid' value='Masjid Akbar Maulana' maxlength='45'></td>
     </tr>
     <tr>
       <td style='text-align:center' colspan='2'><input type='submit' value='Kirim'></form></td>
     </tr>
     <tr>
       <td >Info</td>
-      <td ><form onsubmit='setNamamasjid()'><input style='text-align:center' type='text' name='info1' id='info1' value='Sudahkah Anda Sholat'></td>
+      <td ><form onsubmit='setNamamasjid()'><input style='text-align:center' type='text' name='info1' id='info1' value='Sudahkah Anda Sholat' maxlength='45'></td>
     </tr>
     <tr>
       <td style='text-align:center' colspan='2'><input type='submit' value='Kirim'></form></td>
@@ -204,27 +203,21 @@ table, th, td {
   <tbody>
     <tr>
       <td >Adzan</td>
-      <td ><form onsubmit='setIqomah()'><input style='text-align:center' type='number' name='lamaadzan' id='lamaadzan' value='4'></td>
-      <td ></td>
-      <td ></td>
-    </tr>
-    <tr>
+      <td ><form onsubmit='setIqomah()'><input style='text-align:center' type='number' name='lamaadzan' id='lamaadzan' value='4' min='2' max='8'></td>
       <td >Subuh</td>
-      <td ><input style='text-align:center' type='number' name='iqomahsubuh' id='iqomahsubuh' value='1'></td>
+      <td ><input style='text-align:center' type='number' name='iqomahsubuh' id='iqomahsubuh' value='1' min='2' max='8'></td>
+    </tr>
+    <tr>
       <td >Dzuhur</td>
-      <td ><input style='text-align:center' type='number' name='iqomahdzuhur' id='iqomahdzuhur' value='1'></td>
-    </tr>
-    <tr>
+      <td ><input style='text-align:center' type='number' name='iqomahdzuhur' id='iqomahdzuhur' value='1' min='2' max='8'></td>
       <td >Ashar</td>
-      <td ><input style='text-align:center' type='number' name='iqomahashar' id='iqomahashar' value='1'></td>
-      <td >Maghrib</td>
-      <td ><input style='text-align:center' type='number' name='iqomahmaghrib' id='iqomahmaghrib' value='1'></td>
+      <td ><input style='text-align:center' type='number' name='iqomahashar' id='iqomahashar' value='1' min='2' max='8'></td>
     </tr>
     <tr>
+      <td >Maghrib</td>
+      <td ><input style='text-align:center' type='number' name='iqomahmaghrib' id='iqomahmaghrib' value='1' min='2' max='8'></td>
       <td >Isya</td>
-      <td ><input style='text-align:center' type='number' name='iqomahisya' id='iqomahisya' value='1'></td>
-      <td ></td>
-      <td ></td>
+      <td ><input style='text-align:center' type='number' name='iqomahisya' id='iqomahisya' value='1' min='2' max='8'></td>
     </tr>
     <tr>
       <td style='text-align:center' colspan='4'><input type='submit' value='Kirim'></form></td>
@@ -233,6 +226,46 @@ table, th, td {
   </tbody>
 </table>
 </div>
+
+<div style='text-align:center' onclick='t4_tampil()'>
+    <p style='background-color: #0199d9;padding: 5px;font-size: 22px;color: rgb(255,255,255);'>Tampilkan</p>
+</div>
+<div id='t4_tampil' style='display:none'>
+<table width='100%'>
+  <tbody>
+    <tr>
+      <td >Imsak</td>
+      <td style='text-align:right'><form onsubmit='setTampil()'><input type='number' id='tpl_imsak' name='tpl_imsak' value='1' min='0' max='1'></td>
+      <td >Subuh</td>
+      <td style='text-align:right'><input type='number' id='tpl_subuh' name='tpl_subuh' value='1' min='0' max='1'></td>
+     
+    </tr>
+    <tr>
+      <td >Terbit</td>
+      <td style='text-align:right'><input type='number' id='tpl_terbit' name='tpl_terbit' value='1' min='0' max='1'></td>
+      <td >Dhuha</td>
+      <td style='text-align:right'><input type='number' id='tpl_dhuha' name='tpl_dhuha' value='1' min='0' max='1'></td>
+    </tr>
+    <tr>
+      <td >Dzuhur</td>
+      <td style='text-align:right'><input type='number' id='tpl_dzuhur' name='tpl_dzuhur' value='1' min='0' max='1'></td>
+      <td >Ashar</td>
+      <td style='text-align:right'><input type='number' id='tpl_ashar' name='tpl_ashar' value='1' min='0' max='1'></td>
+    </tr>
+    <tr>
+      <td >Maghrib</td>
+      <td style='text-align:right'><input type='number' id='tpl_maghrib' name='tpl_maghrib' value='1' min='0' max='1'></td>
+      <td >Isya</td>
+      <td style='text-align:right'><input type='number' id='tpl_isya' name='tpl_isya' value='1' min='0' max='1'></td>   
+    </tr>
+    <tr>
+      <td style='text-align:center' colspan='4'><input type='submit' value='Kirim'></form></td>
+    </tr>
+    
+  </tbody>
+</table>
+</div>
+
 <div style='text-align:center' onclick='t4_koreksi()'>
     <p style='background-color: #0199d9;padding: 5px;font-size: 22px;color: rgb(255,255,255);'>Koreksi Waktu</p>
 </div>
@@ -241,27 +274,27 @@ table, th, td {
   <tbody>
     <tr>
       <td >Imsak</td>
-      <td ><form onsubmit='setKoreksi()'><input style='text-align:center' type='number' name='korimsak' id='korimsak' value='2'></td>
+      <td ><form onsubmit='setKoreksi()'><input style='text-align:center' type='number' name='korimsak' id='korimsak' value='2' min='0' max='8'></td>
       <td >Subuh</td>
-      <td ><input style='text-align:center' type='number' name='korsubuh' id='korsubuh' value='2'></td>
+      <td ><input style='text-align:center' type='number' name='korsubuh' id='korsubuh' value='2' min='0' max='8'></td>
     </tr>
     <tr>
       <td >Terbit</td>
-      <td ><input style='text-align:center' type='number' name='korterbit' id='korterbit' value='2'></td>
+      <td ><input style='text-align:center' type='number' name='korterbit' id='korterbit' value='2' min='0' max='8'></td>
       <td >Dhuha</td>
-      <td ><input style='text-align:center' type='number' name='kordhuha' id='kordhuha' value='2'></td>
+      <td ><input style='text-align:center' type='number' name='kordhuha' id='kordhuha' value='2' min='0' max='8'></td>
     </tr>
     <tr>
       <td >Dzuhur</td>
-      <td ><input style='text-align:center' type='number' name='kordzuhur' id='kordzuhur' value='2'></td>
+      <td ><input style='text-align:center' type='number' name='kordzuhur' id='kordzuhur' value='2' min='0' max='8'></td>
       <td >Ashar</td>
-      <td ><input style='text-align:center' type='number' name='korashar' id='korashar' value='2'></td>
+      <td ><input style='text-align:center' type='number' name='korashar' id='korashar' value='2' min='0' max='8'></td>
     </tr>
     <tr>
       <td >Maghrib</td>
-      <td ><input style='text-align:center' type='number' name='kormaghrib' id='kormaghrib' value='2'></td>
+      <td ><input style='text-align:center' type='number' name='kormaghrib' id='kormaghrib' value='2' min='0' max='8'></td>
       <td >Isya</td>
-      <td ><input style='text-align:center' type='number' name='korisya' id='korisya' value='2'></td>
+      <td ><input style='text-align:center' type='number' name='korisya' id='korisya' value='2' min='0' max='8'></td>
     </tr>
     <tr>
       <td style='text-align:center' colspan='4'><input type='submit' value='Kirim'></form></td>
@@ -411,9 +444,9 @@ function handleIqomah(){
    xmldoc = xmlResponse.getElementsByTagName('LamZan');
    message = xmldoc[0].firstChild.nodeValue;
    document.getElementById('lamaadzan').value=message;
-//   xmldoc = xmlResponse.getElementsByTagName('LamSak');
-//   message = xmldoc[0].firstChild.nodeValue;
-//   document.getElementById('lamaimsak').value=message;
+  //   xmldoc = xmlResponse.getElementsByTagName('LamSak');
+  //   message = xmldoc[0].firstChild.nodeValue;
+  //   document.getElementById('lamaimsak').value=message;
    xmldoc = xmlResponse.getElementsByTagName('ISub');
    message = xmldoc[0].firstChild.nodeValue;
    document.getElementById('iqomahsubuh').value=message;
@@ -429,9 +462,46 @@ function handleIqomah(){
    xmldoc = xmlResponse.getElementsByTagName('IIsy');
    message = xmldoc[0].firstChild.nodeValue;
    document.getElementById('iqomahisya').value=message;
-   
  }
 }
+function prosesTampil(){
+ if(xmlHttp.readyState==0 || xmlHttp.readyState==4){
+   xmlHttp.open('PUT','xmltampil',true);
+   xmlHttp.onreadystatechange=handleTampil;
+   xmlHttp.send(null);
+ }
+}
+function handleTampil(){
+ if(xmlHttp.readyState==4 && xmlHttp.status==200){
+   xmlResponse=xmlHttp.responseXML;
+   
+   xmldoc = xmlResponse.getElementsByTagName('TplImsak');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('tpl_imsak').value=message;
+   xmldoc = xmlResponse.getElementsByTagName('TplSubuh');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('tpl_subuh').value=message;
+   xmldoc = xmlResponse.getElementsByTagName('TplTerbit');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('tpl_terbit').value=message;
+   xmldoc = xmlResponse.getElementsByTagName('TplDhuha');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('tpl_dhuha').value=message;
+   xmldoc = xmlResponse.getElementsByTagName('TplDzuhur');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('tpl_dzuhur').value=message;
+   xmldoc = xmlResponse.getElementsByTagName('TplAshar');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('tpl_ashar').value=message;
+   xmldoc = xmlResponse.getElementsByTagName('TplMaghrib');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('tpl_maghrib').value=message;
+   xmldoc = xmlResponse.getElementsByTagName('TplIsya');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('tpl_isya').value=message;
+ }
+}
+
 function func_t4_waktu() {
   process();
   var x = document.getElementById('t4_waktu');
@@ -439,12 +509,14 @@ function func_t4_waktu() {
   var z = document.getElementById('t4_koordinat');
   var h = document.getElementById('t4_info');
   var t = document.getElementById('t4_koreksi');
+  var c = document.getElementById('t4_tampil');
   if (x.style.display === 'none') {
     x.style.display = 'block';
     y.style.display = 'none';
     z.style.display = 'none';
     h.style.display = 'none';
     t.style.display = 'none';
+    c.style.display = 'none';
   } else {
     x.style.display = 'none';
   }
@@ -456,12 +528,14 @@ function t4_adzan() {
   var z = document.getElementById('t4_koordinat');
   var h = document.getElementById('t4_info');
   var t = document.getElementById('t4_koreksi');
+  var c = document.getElementById('t4_tampil');
   if (x.style.display === 'none') {
     x.style.display = 'block';
     y.style.display = 'none';
     z.style.display = 'none';
     h.style.display = 'none';
     t.style.display = 'none';
+    c.style.display = 'none';
   } else {
     x.style.display = 'none';
   }
@@ -473,12 +547,14 @@ function t4_koordinat() {
   var z = document.getElementById('t4_koordinat');
   var h = document.getElementById('t4_info');
   var t = document.getElementById('t4_koreksi');
+  var c = document.getElementById('t4_tampil');
   if (z.style.display === 'none') {
     z.style.display = 'block';
     x.style.display = 'none';
     y.style.display = 'none';
     h.style.display = 'none';
     t.style.display = 'none';
+    c.style.display = 'none';
   } else {
     z.style.display = 'none';
   }
@@ -490,16 +566,39 @@ function t4_info() {
   var z = document.getElementById('t4_koordinat');
   var h = document.getElementById('t4_info');
   var t = document.getElementById('t4_koreksi');
+  var c = document.getElementById('t4_tampil');
   if (h.style.display === 'none') {
     h.style.display = 'block';
     x.style.display = 'none';
     y.style.display = 'none';
     z.style.display = 'none';
     t.style.display = 'none';
+    c.style.display = 'none';
   } else {
     h.style.display = 'none';
   }
 }
+
+function t4_tampil() {
+  prosesTampil();
+  var y = document.getElementById('t4_waktu');
+  var x = document.getElementById('t4_adzan');
+  var z = document.getElementById('t4_koordinat');
+  var h = document.getElementById('t4_info');
+  var t = document.getElementById('t4_koreksi');
+  var c = document.getElementById('t4_tampil');
+  if (c.style.display === 'none') {
+    c.style.display = 'block';
+    x.style.display = 'none';
+    y.style.display = 'none';
+    z.style.display = 'none';
+    h.style.display = 'none';
+    t.style.display = 'none';
+  } else {
+    c.style.display = 'none';
+  }
+}
+
 function t4_koreksi() {
   prosesKoreksi();
   var y = document.getElementById('t4_waktu');
@@ -507,16 +606,19 @@ function t4_koreksi() {
   var z = document.getElementById('t4_koordinat');
   var h = document.getElementById('t4_info');
   var t = document.getElementById('t4_koreksi');
+  var c = document.getElementById('t4_tampil');
   if (t.style.display === 'none') {
     t.style.display = 'block';
     x.style.display = 'none';
     y.style.display = 'none';
     z.style.display = 'none';
     h.style.display = 'none';
+    c.style.display = 'none';
   } else {
     t.style.display = 'none';
   }
 }
+
 
 function setInfo() {
   var namamasjid = document.getElementById('namamasjid').value;
@@ -554,7 +656,7 @@ function setWaktu() {
   xhr.open('POST', url, true);
   xhr.send(JSON.stringify(datainfoWaktu));
    
-  alert("Data Waktu, Kecerahan Dan Volume Berhasil Diubah");
+  alert('Data Waktu, Kecerahan Dan Volume Berhasil Diubah');
 };
 function setKoordinat() {
 
@@ -574,7 +676,7 @@ function setKoordinat() {
   xhr.open('POST', url, true);
   xhr.send(JSON.stringify(datainfoKoordinat));
    
-  alert("Data Lokasi Berhasil Diubah");
+  alert('Data Lokasi Berhasil Diubah');
 };
 function setNamamasjid() {
 
@@ -593,12 +695,12 @@ function setNamamasjid() {
   xhr.open('POST', url, true);
   xhr.send(JSON.stringify(dataNamaMasjid));
    
-  alert("Data Nama Masjid dan Informasi Berhasil Diubah");
+  alert('Data Nama Masjid dan Informasi Berhasil Diubah');
 };
 function setIqomah() {
 
   var lamaadzan = document.getElementById('lamaadzan').value;
-  var lamaimsak = "0";
+  var lamaimsak = '0';
   var iqomahsubuh = document.getElementById('iqomahsubuh').value;
   var iqomahdzuhur = document.getElementById('iqomahdzuhur').value;
   var iqomahashar = document.getElementById('iqomahashar').value;
@@ -617,7 +719,7 @@ function setIqomah() {
   xhr.open('POST', url, true);
   xhr.send(JSON.stringify(dataIqomah));
    
-  alert("Data Adzan dan Iqomah Berhasil Diubah");
+  alert('Data Adzan dan Iqomah Berhasil Diubah');
 };
 function setKoreksi() {
 
@@ -642,11 +744,36 @@ function setKoreksi() {
   xhr.open('POST', url, true);
   xhr.send(JSON.stringify(dataKoreksi));
    
-  alert("Data Koreksi Waktu Berhasil Diubah");
+  alert('Data Koreksi Waktu Berhasil Diubah');
 };
+function setTampil() {
 
+  var tpl_imsak = document.getElementById('tpl_imsak').value;
+  var tpl_subuh = document.getElementById('tpl_subuh').value;
+  var tpl_terbit = document.getElementById('tpl_terbit').value;
+  var tpl_dhuha = document.getElementById('tpl_dhuha').value;
+  var tpl_dzuhur = document.getElementById('tpl_dzuhur').value;
+  var tpl_ashar = document.getElementById('tpl_ashar').value;
+  var tpl_maghrib = document.getElementById('tpl_maghrib').value;
+  var tpl_isya = document.getElementById('tpl_isya').value;
+
+  
+
+  var dataTampil = {tpl_imsak:tpl_imsak, tpl_subuh:tpl_subuh, tpl_terbit:tpl_terbit, tpl_dhuha:tpl_dhuha, tpl_dzuhur:tpl_dzuhur, tpl_ashar:tpl_ashar, tpl_maghrib:tpl_maghrib, tpl_isya:tpl_isya};
+  
+  var xhr = new XMLHttpRequest();
+  var url = '/simpanTampil';
+  xhr.onreadystatechange = function() {
+    if(this.onreadyState == 4  && this.status == 200) {
+      console.log(xhr.responseText);
+    }
+  };
+  xhr.open('POST', url, true);
+  xhr.send(JSON.stringify(dataTampil));
+   
+  alert('Data Tampil Berhasil Diubah');
+};
 
 </script>
 </html>
-
 )=====";

@@ -96,7 +96,7 @@ void setup() {
   //  LAMA IMSAK
   //  ================
 
-  int lama_imsak = 5; EEPROM.put(61, lama_imsak);
+  int lama_imsak = 0; EEPROM.put(61, lama_imsak);
 //  EEPROM.get(57, blama_imsak); Serial.print("57 lama_imsak : "); Serial.println(blama_imsak);
 //  Serial.println(); 
    

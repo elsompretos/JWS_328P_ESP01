@@ -1,5 +1,5 @@
 //char namaBulanHijriyah[][12] = {"Muharram", "Safar", "RabiulAwal", "RabiulAkhir", "JumadilAwal", "JumadilAkhir", "Rajab", "Syaban", "Ramadhan", "Syawal", "Dzulqodah", "Dzulhijjah"};
-const char namaBulanHijriyah[][12] PROGMEM = {"Muharram", "Safar", "RabiulAwal", "RabiulAkhir", "JumadilAwal", "JumadilAkhir", "Rajab", "Syaban", "Ramadhan", "Syawal", "Dzulqodah", "Dzulhijjah"};
+const char namaBulanHijriyah[][14] PROGMEM = {"Muharram", "Safar", "RabiulAwal", "RabiulAkhir", "JumadilAwal", "JumadilAkhir", "Rajab", "Syaban", "Ramadhan", "Syawal", "Dzulqodah", "Dzulhijjah"};
 
 String Kuwaiti_algorithm (double tanggalH, double bulanH, double tahunH, int hariH, double adj_hij){
   
@@ -88,7 +88,6 @@ String Kuwaiti_algorithm (double tanggalH, double bulanH, double tahunH, int har
 char MonthName[12];
 memset(MonthName, 0, 12);
 strcpy_P(MonthName, namaBulanHijriyah[int(im)-1]);
-
 
 res_kalHij =  String(int(id)) + " " + MonthName + " " + String(int(iy)) + " H";
 // res_kalHij =  nm_hr_hjr + ", " + String(int(id)) + " " + MonthName + " " + String(int(iy)) + " H";

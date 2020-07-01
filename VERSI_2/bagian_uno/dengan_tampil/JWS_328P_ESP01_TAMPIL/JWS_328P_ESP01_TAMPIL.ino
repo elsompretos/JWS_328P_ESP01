@@ -68,8 +68,8 @@ byte evt_0 = 0, evt_1 = 0, evt_2 = 1, evt_3 = 1, evt_4 = 1, evt_5 = 1, evt_6 = 1
 int iqm_ee, sis_wkt_iqo, du_iq, iqm_menit, iqm_menit_sisa, iqm_detik;
 
 int b_a[8];
-int b_t[8], btpl_subuh, biqo_subuh, blama_imsak;
-String bnm_mesjid;
+int b_t[8];
+// String bnm_mesjid;
   
 int Tahun;
 byte Bulan, Tanggal, Jam, Menit, Detik, hariIni;
@@ -87,12 +87,13 @@ int b_bright, b_volume;
 int dur_tpl_tx_sol;
 String slt_sek;
 String cck;
-int j_s_s = 0;
+int  j_s_s = 0;
 String tx_ser;
 byte wkt_msk_skrg;
 
 const char namaBulanMasehi[12][12] PROGMEM = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
 const char namaHariMasehi[7][7] PROGMEM = {"Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"};
+const char namaWaktuSholat[8][12] PROGMEM = {"IMSAK ", " SUBUH ", " TERBIT ", " DHUHA ", " DZUHUR ", " ASHAR ", " MAGHRIB ", " ISYA "};
 const char pesan[][60] PROGMEM = {"Matikan HP - Luruskan Shaf - Matikan HP - Luruskan Shaf"};
 
 void scan(){
@@ -156,8 +157,6 @@ switch (mode) {
       TPL_HH();
     break;
     case 4: 
-      // evt_0 = 1; evt_1 = 1; evt_2 = 1; evt_3 = 0; evt_4 = 1; evt_5 = 1; evt_6 = 1;
-      // TPL_HH_JWS();
       evt_0 = 1; evt_1 = 1; evt_2 = 0; evt_3 = 1; evt_4 = 1; evt_5 = 1; evt_6 = 1;
       TPL_HH_TGL(5);
     break;
@@ -170,8 +169,6 @@ switch (mode) {
       TPL_QD_IQM();  
     break;
     case 7: 
-       // evt_0 = 1; evt_1 = 1; evt_2 = 1; evt_3 = 1; evt_4 = 1; evt_5 = 1; evt_6 = 0;
-       // TPL_LURUS(); 
       evt_0 = 1; evt_1 = 1; evt_2 = 0; evt_3 = 1; evt_4 = 1; evt_5 = 1; evt_6 = 1;
       TPL_HH_TGL(4); 
     break;
@@ -180,8 +177,6 @@ switch (mode) {
       TPL_HH();
     break;
     case 9: 
-      // evt_0 = 1; evt_1 = 1; evt_2 = 0; evt_3 = 1; evt_4 = 1; evt_5 = 1; evt_6 = 1;
-      // TPL_HH_TGL1();
       evt_0 = 1; evt_1 = 1; evt_2 = 0; evt_3 = 1; evt_4 = 1; evt_5 = 1; evt_6 = 1;
       TPL_HH_TGL(2);
     break;
@@ -200,11 +195,11 @@ switch (mode) {
     }
     
     if (tx_ser.length() > 0){
-        // Setting Jam === SJ=16-30-00-30-06-2020-01-15-20 4 digit terakhir (10-15) = brightness-volume
+        // Setting Jam === SJ=12-11-20-01-07-2020-01-15-20 4 digit terakhir (10-15) = brightness-volume
         if(tx_ser.substring(0,2) == "SJ"){
           Serial.println(tx_ser);
 
-          bnm_mesjid = readString(69);
+          String bnm_mesjid = readString(69);
 
           rtc.adjust(DateTime(tx_ser.substring(18,22).toInt(), tx_ser.substring(15,17).toInt(), tx_ser.substring(12,14).toInt(), tx_ser.substring(3,5).toInt(), tx_ser.substring(6,8).toInt(), tx_ser.substring(9,11).toInt())); 
           EEPROM.put(63, tx_ser.substring(23,25).toInt()); // Adj Hijriyah
@@ -223,6 +218,8 @@ switch (mode) {
        // Setting lama Iqomah === IQ=02-02-02-02-02-04 === IQ=03-03-03-03-03-05
        else if(tx_ser.substring(0,2) == "IQ"){ 
           Serial.println(tx_ser);
+
+          byte blama_imsak;
 
           EEPROM.get(61, blama_imsak);
           
@@ -247,6 +244,8 @@ switch (mode) {
        else if(tx_ser.substring(0,2) == "KR"){
          Serial.println(tx_ser);
 
+         byte btpl_subuh;
+
          EEPROM.get(32, btpl_subuh);
          
          EEPROM.put(15, tx_ser.substring(3,5).toInt());
@@ -269,20 +268,20 @@ switch (mode) {
        else if(tx_ser.substring(0,2) == "TP"){
          Serial.println(tx_ser);
 
+         byte biqo_subuh;
+
          EEPROM.get(49, biqo_subuh);
-         
-         EEPROM.put(32, tx_ser.substring(3,5).toInt());
-         EEPROM.put(34, tx_ser.substring(6,8).toInt());
-         EEPROM.put(36, tx_ser.substring(9,11).toInt());
-         EEPROM.put(38, tx_ser.substring(12,14).toInt());
-         EEPROM.put(40, tx_ser.substring(15,17).toInt());
-         EEPROM.put(42, tx_ser.substring(18,20).toInt());
-         EEPROM.put(44, tx_ser.substring(21,23).toInt());
-         EEPROM.put(46, tx_ser.substring(24,26).toInt());
 
+         EEPROM.put(32, tx_ser.substring(6,8).toInt());
+         EEPROM.put(34, tx_ser.substring(15,17).toInt());
+         EEPROM.put(36, tx_ser.substring(18,20).toInt());
+         EEPROM.put(38, tx_ser.substring(21,23).toInt());
+         EEPROM.put(40, tx_ser.substring(24,26).toInt());
+         EEPROM.put(42, tx_ser.substring(3,5).toInt());
+         EEPROM.put(44, tx_ser.substring(9,11).toInt());
+         EEPROM.put(46, tx_ser.substring(12,14).toInt());
+         
          EEPROM.put(49, biqo_subuh);
-
-         
           
          BUZZ();
        }
@@ -435,13 +434,16 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
   j_s_s = 0;
   WAKTU();
   AMBIL_WAKTU_SHOLAT();
+  
   String str_tanggal_hijriyah;
   
 
        if(pilih == 1){ // ============= TANGGAL HIJRIYAH
     int b_ses_hijriyah;
+    
     EEPROM.get(63, b_ses_hijriyah); 
-    str_tanggal_hijriyah = Kuwaiti_algorithm(Tanggal, Bulan, Tahun, hariIni, b_ses_hijriyah); 
+    str_tanggal_hijriyah = Kuwaiti_algorithm(Tanggal, Bulan, Tahun, hariIni, b_ses_hijriyah);
+     
   }
   else if(pilih == 2){ // ============= TANGGAL MASEHI
     // Hari Masehi
@@ -471,8 +473,6 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
 
     // Imsak 04:32 Subuh 04:42 Terbit 06:05 Dhuha 06:27 Dzuhur 11:58 Ashar 15:20 Maghrib 17:51 Isya 19:06
     // Imsak 04:32 Terbit 06:03 Dhuha 06:25 Dzuhur 11:58 Ashar 15:20 Maghrib 17:51 Isya 19:06
-
-
     
     EEPROM.get(42, b_t[0]); //imsak
     EEPROM.get(32, b_t[1]); //subuh
@@ -483,18 +483,81 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
     EEPROM.get(38, b_t[6]); //maghrib
     EEPROM.get(40, b_t[7]); //isya
 
-    str_tanggal_hijriyah = " ";
+    str_tanggal_hijriyah = "";
 
-    if(b_t[0] == 1){ str_tanggal_hijriyah = str_tanggal_hijriyah + "Imsak " + waktu_ims; } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
-    if(b_t[1] == 1){ str_tanggal_hijriyah = str_tanggal_hijriyah + " Subuh " + waktu_sbh; } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
-    if(b_t[2] == 1){ str_tanggal_hijriyah = str_tanggal_hijriyah + " Terbit " + waktu_tbt; } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
+    if(b_t[0] == 1){ 
+      char nama_waktu[8];
+      memset(nama_waktu, 0, 8);
+      strcpy_P(nama_waktu, namaWaktuSholat[0]);
+      
+      str_tanggal_hijriyah = str_tanggal_hijriyah + nama_waktu + waktu_ims; 
+     } 
+      else 
+     {  str_tanggal_hijriyah = str_tanggal_hijriyah;  }
+     
+    if(b_t[1] == 1){ 
+      char nama_waktu[8];
+      memset(nama_waktu, 0, 8);
+      strcpy_P(nama_waktu, namaWaktuSholat[1]);
+      
+      str_tanggal_hijriyah = str_tanggal_hijriyah + nama_waktu + waktu_sbh; 
+      } 
+      else 
+      {  str_tanggal_hijriyah = str_tanggal_hijriyah;  }
+      
+    if(b_t[2] == 1){ 
+      char nama_waktu[8];
+      memset(nama_waktu, 0, 8);
+      strcpy_P(nama_waktu, namaWaktuSholat[2]);
+      
+      str_tanggal_hijriyah = str_tanggal_hijriyah + nama_waktu + waktu_tbt; 
+      } 
+      else 
+      {  str_tanggal_hijriyah = str_tanggal_hijriyah;  }
 
-    if(b_t[3] == 1){ str_tanggal_hijriyah = str_tanggal_hijriyah + " Dhuha " + waktu_dhu; } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
-    if(b_t[4] == 1){ str_tanggal_hijriyah = str_tanggal_hijriyah + " Dzuhur " + waktu_dzr; } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
-    if(b_t[5] == 1){ str_tanggal_hijriyah = str_tanggal_hijriyah + " Ashar " + waktu_asr; } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
+    if(b_t[3] == 1){ 
+      char nama_waktu[8];
+      memset(nama_waktu, 0, 8);
+      strcpy_P(nama_waktu, namaWaktuSholat[3]);
+      
+      str_tanggal_hijriyah = str_tanggal_hijriyah + nama_waktu + waktu_dhu;
+    } 
+    else 
+    {  str_tanggal_hijriyah = str_tanggal_hijriyah;  }
+    
+    if(b_t[4] == 1){ 
+      char nama_waktu[8];
+      memset(nama_waktu, 0, 8);
+      strcpy_P(nama_waktu, namaWaktuSholat[4]);
 
-    if(b_t[6] == 1){ str_tanggal_hijriyah = str_tanggal_hijriyah + " Maghrib " + waktu_mgr; } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
-    if(b_t[7] == 1){ str_tanggal_hijriyah = str_tanggal_hijriyah + " Isya " + waktu_isy; } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
+      str_tanggal_hijriyah = str_tanggal_hijriyah + nama_waktu + waktu_dzr; 
+    } 
+    else 
+    {  str_tanggal_hijriyah = str_tanggal_hijriyah;  }
+    
+    if(b_t[5] == 1){ 
+      char nama_waktu[8];
+      memset(nama_waktu, 0, 8);
+      strcpy_P(nama_waktu, namaWaktuSholat[5]);
+      
+      str_tanggal_hijriyah = str_tanggal_hijriyah + nama_waktu + waktu_asr; 
+    } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
+
+    if(b_t[6] == 1){ 
+      char nama_waktu[8];
+      memset(nama_waktu, 0, 8);
+      strcpy_P(nama_waktu, namaWaktuSholat[6]);
+      
+      str_tanggal_hijriyah = str_tanggal_hijriyah + nama_waktu + waktu_mgr; 
+     } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
+     
+    if(b_t[7] == 1){ 
+      char nama_waktu[8];
+      memset(nama_waktu, 0, 8);
+      strcpy_P(nama_waktu, namaWaktuSholat[7]);
+      
+      str_tanggal_hijriyah = str_tanggal_hijriyah + nama_waktu + waktu_isy; 
+    } else { str_tanggal_hijriyah = str_tanggal_hijriyah; }
     
     
     //str_tanggal_hijriyah = "Imsak " + waktu_ims + " Subuh " + waktu_sbh + " Dzuhur " + waktu_dzr + " Ashar " + waktu_asr + " Maghrib " + waktu_mgr + " Isya " + waktu_isy;    
@@ -779,11 +842,13 @@ void AMBIL_WAKTU_SHOLAT(){            // AMBIL WAKTU SHOLAT
         sholat.getTimePart(ws,hh_sol, mm_sol);
 
         if(ws==3){ // Dhuha
-           mm_sol = mm_sol + b_a[ws]-2;
+           // mm_sol = mm_sol + b_a[ws]-2;
+           mm_sol = mm_sol + b_a[ws]; // Normal Dulu ya...
         }
         
-        else if(ws==2){ // Dhuha
-           mm_sol = mm_sol + b_a[ws]-2;
+        else if(ws==2){ // Terbit
+           // mm_sol = mm_sol + b_a[ws]-2;
+           mm_sol = mm_sol + b_a[ws]; // Normal Dulu ya...
         }
         else 
         {
