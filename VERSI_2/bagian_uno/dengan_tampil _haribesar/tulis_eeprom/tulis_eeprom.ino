@@ -114,7 +114,7 @@ void setup() {
 
   writeString(69, "Masjid Raya Akbar Maulana - Ampera Raya");
   writeString(119, "Jadikan Sabar dan Sholat Sebagai Penolongmu");
-  writeString(169, "Sedekah Melancarkan Rezekimu");
+  // writeString(169, "Sedekah Melancarkan Rezekimu");
   writeString(219, "Subhanallah Walhamdulillah Laailahaillalhah");
   writeString(269, "Selamat Hari Raya Idul Fitri 1 Syawal 1441 H");
 
