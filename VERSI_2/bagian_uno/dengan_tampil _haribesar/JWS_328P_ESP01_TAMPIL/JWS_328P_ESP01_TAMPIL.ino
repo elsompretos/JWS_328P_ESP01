@@ -507,7 +507,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           memset(isi_hari_raya, 0, 60);
           strcpy_P(isi_hari_raya, pesan_hariRaya[3]);
           
-          writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
+          writeString(119, isi_hari_raya);
           flag = 1;
 
           Serial.println(F("tulis Hari Biasa"));
