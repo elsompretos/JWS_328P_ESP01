@@ -450,7 +450,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
     kode_hari_raya=(str_tanggal_hijriyah.substring(0, 1)).toInt();
 
     if(flag==0){ // Menulis EEPROM Sekali pada pukul 01:00      
-      if(Jam == 0 && (Menit == 0 || Menit == 1 || Menit == 2 || Menit == 3 || Menit == 4 || Menit == 5))
+      if(Jam == 0 && (Menit == 0 || Menit == 1 || Menit == 2 || Menit == 3 || Menit == 4))
       {
          if(kode_hari_raya == 1){
           
