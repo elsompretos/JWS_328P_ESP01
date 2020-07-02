@@ -209,8 +209,6 @@ switch (mode) {
           EEPROM.put(67, tx_ser.substring(29,31).toInt()); // Adj Volume
 
           writeString(69, bnm_mesjid);
-
-          
           
           CERAH_VOLUME();
           
