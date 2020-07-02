@@ -69,7 +69,8 @@ int iqm_ee, sis_wkt_iqo, du_iq, iqm_menit, iqm_menit_sisa, iqm_detik;
 
 int b_a[8];
 int b_t[8];
-byte flag = 0;
+byte flag = 0, flag2 = 0;
+
 // String bnm_mesjid;
   
 int Tahun;
@@ -197,7 +198,7 @@ switch (mode) {
     }
     
     if (tx_ser.length() > 0){
-        // Setting Jam === SJ=23-59-20-23-05-2020-01-15-20 SJ=23-59-20-08-11-2019-01-15-20 4 digit terakhir (10-15) = brightness-volume
+        // Setting Jam === SJ=23-59-55-24-05-2020-01-15-20   SJ=23-59-20-08-11-2019-01-15-20 4 digit terakhir (10-15) = brightness-volume
         if(tx_ser.substring(0,2) == "SJ"){
           Serial.println(tx_ser);
 
@@ -456,7 +457,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           strcpy_P(isi_hari_raya, pesan_hariRaya[0]);
           
           writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
-          flag = 1;
+          flag = 1; flag2 = 1;
           
           Serial.println(F("tulis Maulid"));
         }
@@ -466,7 +467,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           strcpy_P(isi_hari_raya, pesan_hariRaya[1]);
           
           writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
-          flag = 1;
+          flag = 1; flag2 = 1;
 
           Serial.println(F("tulis Idul Fitri"));
         }
@@ -476,7 +477,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           strcpy_P(isi_hari_raya, pesan_hariRaya[2]);
           
           writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
-          flag = 1;
+          flag = 1; flag2 = 1;
 
           Serial.println(F("tulis Idul Adha"));
         }
@@ -486,7 +487,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           strcpy_P(isi_hari_raya, pesan_hariRaya[4]);
           
           writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
-          flag = 1;
+          flag = 1; flag2 = 1;
 
           Serial.println(F("tulis Tahun Baru"));
         }
@@ -496,19 +497,22 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           strcpy_P(isi_hari_raya, pesan_hariRaya[5]);
           
           writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
-          flag = 1;
+          flag = 1; flag2 = 1;
 
           Serial.println(F("tulis Isra Miraj"));
         }
         else
         {
-          memset(isi_hari_raya, 0, 60);
-          strcpy_P(isi_hari_raya, pesan_hariRaya[3]);
-          
-          writeString(119, isi_hari_raya);
-          flag = 1;
-
-          Serial.println(F("tulis Hari Biasa"));
+          if (flag2 == 1){
+            memset(isi_hari_raya, 0, 60);
+            strcpy_P(isi_hari_raya, pesan_hariRaya[3]);
+            
+            writeString(119, isi_hari_raya);
+            flag = 1;
+  
+            Serial.println(F("tulis Hari Biasa"));
+            flag2 = 0;
+          }
         }
       }
     }
