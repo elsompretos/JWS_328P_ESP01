@@ -1,11 +1,9 @@
 /*
 Perbaikan Tanggal 30 Juni 2020
 Menggunakan Librray EEPROM bawaan Arduino IDE
-
 0 Latitude : -6.21
 5 Longitude : 106.85
 10 Timezone : 7.00
-
 15 adj_subuh : 2
 17 adj_dzuhur : 2
 19 adj_ashar : 2
@@ -14,7 +12,6 @@ Menggunakan Librray EEPROM bawaan Arduino IDE
 25 adj_imsak : 0
 27 adj_terbit : 0
 29 adj_dhuha : 2
-
 32 tpl_subuh : 1
 34 tpl_dzuhur : 1
 36 tpl_ashar : 1
@@ -23,26 +20,21 @@ Menggunakan Librray EEPROM bawaan Arduino IDE
 42 tpl_imsak : 1
 44 tpl_terbit : 1
 46 tpl_dhuha : 1
-
 49 iqm_subuh : 2
 51 iqm_dzuhur : 2
 53 iqm_ashar : 2
 55 iqm_maghrib : 2
 57 iqm_isya : 2
 59 lama_adzan : 4
-
 61 lama_imsak : 5
-
 63 sesuaikan_tgl_hijriyah : 1
 65 sesuaikan_bright : 10
 67 sesuaikan_volume : 20
-
 69 Nama Masjid  : Masjid Raya Akbar Maulana - Ampera Raya
 119 Informasi 1 : Jadikan Sabar dan Sholat Sebagai Penolongmu
 169 Informasi 2 : Sedekah Melancarkan Rezekimu
 219 Informasi 3 : Subhanallah Walhamdulillah Laailahaillalhah
 269 Informasi 4 : Selamat Hari Raya Idul Fitri 1 Syawal 1441 H
-
 */
  
 #include <DMD3asis.h>
@@ -216,6 +208,15 @@ switch (mode) {
           BUZZ();
        }
 
+       // Setting Jam === SA=23-59-55-24-05-2020   SJ=23-59-20-08-11-2019
+        if(tx_ser.substring(0,2) == "SA"){
+          Serial.println(tx_ser);
+
+          rtc.adjust(DateTime(tx_ser.substring(18,22).toInt(), tx_ser.substring(15,17).toInt(), tx_ser.substring(12,14).toInt(), tx_ser.substring(3,5).toInt(), tx_ser.substring(6,8).toInt(), tx_ser.substring(9,11).toInt())); 
+
+          BUZZ();
+       }
+
        // Setting lama Iqomah === IQ=02-02-02-02-02-04 === IQ=03-03-03-03-03-05
        else if(tx_ser.substring(0,2) == "IQ"){ 
           Serial.println(tx_ser);
@@ -324,6 +325,8 @@ switch (mode) {
 
          BUZZ();
        }
+
+       
               
         tx_ser = ""; 
       } // akhir serial lenght
@@ -459,7 +462,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
           flag = 1; flag2 = 1;
           
-          Serial.println(F("tulis Maulid"));
+          // Serial.println(F("tulis Maulid"));
         }
         else if(kode_hari_raya == 2){
           
@@ -469,7 +472,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
           flag = 1; flag2 = 1;
 
-          Serial.println(F("tulis Idul Fitri"));
+          // Serial.println(F("tulis Idul Fitri"));
         }
         else if(kode_hari_raya == 3){
           
@@ -479,7 +482,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
           flag = 1; flag2 = 1;
 
-          Serial.println(F("tulis Idul Adha"));
+          // Serial.println(F("tulis Idul Adha"));
         }
         else if(kode_hari_raya == 5){
           
@@ -489,7 +492,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
           flag = 1; flag2 = 1;
 
-          Serial.println(F("tulis Tahun Baru"));
+          // Serial.println(F("tulis Tahun Baru"));
         }
         else if(kode_hari_raya == 6){
           
@@ -499,7 +502,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
           flag = 1; flag2 = 1;
 
-          Serial.println(F("tulis Isra Miraj"));
+          // Serial.println(F("tulis Isra Miraj"));
         }
         else
         {
@@ -510,7 +513,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
             writeString(119, isi_hari_raya);
             flag = 1;
   
-            Serial.println(F("tulis Hari Biasa"));
+            // Serial.println(F("tulis Hari Biasa"));
             flag2 = 0;
           }
         }

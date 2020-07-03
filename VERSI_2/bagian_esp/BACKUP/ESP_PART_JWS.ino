@@ -55,7 +55,6 @@ int b_a[8];
 const char *filetampil = "/tampil.json";
 int b_t[8];
 
-
 //==== XML ====
 String XML;
 String XML_IQOMAH;
@@ -78,7 +77,6 @@ void setup() {
   loadIqomahConfig(fileiqomah); 
   loadKoreksi(filekoreksi);
   loadTampil(filetampil);
-
   
   // ==============
   // ==== WIFI ====
@@ -97,7 +95,7 @@ void setup() {
   server.on("/", []() {
      server.send_P(200, "text/html", setwaktu);
 
-    if (server.hasArg("date")) {
+     if (server.hasArg("date")) {
        // date=2020-06-24&time=10%3A20&hijr=1&cerah=10&volume=15
 
        tanggal = (server.arg(0)).substring(8,10);
@@ -110,22 +108,6 @@ void setup() {
    
        kirim = "SJ=" + server.arg(1) + "-00-" + tanggal + "-" + bulan + "-" + tahun + "-" + hijri + "-" + cerah + "-" + volume;
   
-       Serial.println(kirim);
-
-    } 
-     
-    if (server.hasArg("tgl_auto")) {
-       // tgl_auto=2020-07-03&wkt_auto=09%3A06
-
-       tanggal = (server.arg(0)).substring(8,10);
-       bulan = (server.arg(0)).substring(5,7);
-       tahun = (server.arg(0)).substring(0,4);
-       
-       if ((server.arg(2)).toInt() < 10){ hijri = "0" + server.arg(2);  } else { hijri = server.arg(2);  }
-       if ((server.arg(3)).toInt() < 10){ cerah = "0" + server.arg(3);  } else { cerah = server.arg(3);  }
-       if ((server.arg(4)).toInt() < 10){ volume = "0" + server.arg(4); } else { volume = server.arg(4); }
-   
-       kirim = "SA=" + server.arg(1) + "-00-" + tanggal + "-" + bulan + "-" + tahun;
        Serial.println(kirim);
 
     }  
@@ -421,7 +403,7 @@ void loadKoreksi(const char *filekoreksi){          //          Load Koreksi    
   
   configKoreksi.close();
 }
-void loadTampil(const char *filetampil){            //          Load Tampil              //
+void loadTampil(const char *filetampil){            //          Load Koreksi             //
   File configTampil = SPIFFS.open(filetampil, "r");
   
   if (!configTampil) {

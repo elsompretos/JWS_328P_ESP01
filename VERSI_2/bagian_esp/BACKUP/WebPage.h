@@ -111,53 +111,14 @@ table, th, td {
   border: 0px solid black;
 }
 </style>
-
-<!-- date=2020-07-08&time=08%3A08&adjhijr=1&adjcerah=10&adjvolume=15 -->
-
-<script>
-  
-  function startTime(){ 
-    var today = new Date();
-    var h = today.getHours();
-    var m = today.getMinutes();
-    var s = today.getSeconds();
-
-    h = checkTime(h);
-    m = checkTime(m);
-
-    var day = today.getDate();
-    var month = today.getMonth()+1;
-    var yy = today.getFullYear();
-
-    var year = (yy < 1000) ? yy + 1900 : yy;
-
-    day = checkTime(day);
-    month = checkTime(month);
-
-
-    document.getElementById('wkt_auto').value = h + ':' + m;
-    document.getElementById('tgl_auto').value = yy + '-' + month + '-' + day;
-
-    var t = setTimeout(startTime, 500);
-  };
-
-  function checkTime(i){
-    if (i < 10) {i = '0' + i};  // add zero in front of numbers < 10
-      return i;
-  };
-
-</script>
 </head>
-<body onload='startTime()'>
-
-
-
+<body>
 <div style='text-align:center' onclick='func_t4_waktu()'>
     <p style='background-color: #0199d9;padding: 5px;font-size: 22px;color: rgb(255,255,255);'>Waktu</p>
 </div>
 <div id='t4_waktu' style='display:none'>
 <div style='text-align:center'>
-  <!-- <span >Adjust Hijriyah : </span><span id='adhijrii'></span> -->
+  <span >Adjust Hijriyah : </span><span id='adhijrii'></span>
 </div>
 <table width='100%'>
   <tbody>
@@ -182,30 +143,10 @@ table, th, td {
       <td ><input style='text-align:center' type='number' name='adjvolume' id='adjvolume' value='15' min='10' max='99'></td> 
     </tr>
     <tr>
-    <td style='text-align:center' colspan='2'><input type='submit' value='Manual'></form></td>
+    <td style='text-align:center' colspan='2'><input type='submit' value='Kirim'></form></td>
    </tr>
   </tbody>
 </table>
-
-<table width='100%'>
-  <tbody>
-    <tr>
-      <td >Tanggal</td>
-      <td ><form><input style='text-align:center' name='tgl_auto' id='tgl_auto' type='text' ></td>
-    </tr>
-    <tr>
-      <td >Jam</td>
-      <td ><input style='text-align:center' name='wkt_auto' id='wkt_auto' type='text'></td>
-    </tr>
-    <tr> 
-    <tr>
-    <td style='text-align:center' colspan='2'><input type='submit' value='Auto'></form></td>
-   </tr>
-  </tbody>
-</table>
-
-
-
 </div>
 <div style='text-align:center' onclick='t4_koordinat()'>
     <p style='background-color: #0199d9;padding: 5px;font-size: 22px;color: rgb(255,255,255);'>Koordinat</p>
@@ -390,7 +331,7 @@ function handleServerResponse(){
    
    xmldoc = xmlResponse.getElementsByTagName('Hijriyah');
    message = xmldoc[0].firstChild.nodeValue;
-   // document.getElementById('adhijrii').innerHTML=message;
+   document.getElementById('adhijrii').innerHTML=message;
    document.getElementById('adjhijr').value=message;
 
    xmldoc = xmlResponse.getElementsByTagName('Kecerahan');
@@ -637,6 +578,7 @@ function t4_info() {
     h.style.display = 'none';
   }
 }
+
 function t4_tampil() {
   prosesTampil();
   var y = document.getElementById('t4_waktu');
@@ -656,6 +598,7 @@ function t4_tampil() {
     c.style.display = 'none';
   }
 }
+
 function t4_koreksi() {
   prosesKoreksi();
   var y = document.getElementById('t4_waktu');
