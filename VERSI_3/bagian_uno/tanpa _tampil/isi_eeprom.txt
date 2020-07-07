@@ -1,0 +1,26 @@
+0 Latitude : -6.29
+5 Longitude : 106.82
+10 Timezone : 7.00
+
+15 adj_subuh : 2   | 31 tpl_subuh : 0
+17 adj_dzuhur : 2  | 33 tpl_dzuhur : 2
+19 adj_ashar : 2   | 35 tpl_ashar : 3
+21 adj_maghrib : 2 | 37 tpl_maghrib : 4
+23 adj_isya : 2    | 39 tpl_isya : 5
+25 adj_imsak : 2   | 41 tpl_imsak : 6
+27 adj_terbit : 2  | 43 tpl_terbit : 7
+29 adj_dhuha : 2   | 45 tpl_dhuha : 8
+
+
+47 iqm_subuh : 3   | 59 lama_imsak : 0
+49 iqm_dzuhur : 3  | 61 sesuaikan_tgl_hijriyah : 1
+51 iqm_ashar : 3   | 63 sesuaikan_bright : 15
+53 iqm_maghrib : 3 | 65 sesuaikan_volume : 20
+55 iqm_isya : 3
+57 lama_adzan : 4
+
+67 Nama Masjid  : Masjid Raya Akbar Maulana - Ampera Raya
+117 Informasi 1 : Jadikan Sabar dan Sholat Sebagai Penolongmu
+167 Informasi 2 : Sedekah Melancarkan Rezekimu
+217 Informasi 3 : Subhanallah Walhamdulillah Laailahaillalhah
+267 Informasi 4 : Selamat Hari Raya Idul Fitri 1 Syawal 1441 H
