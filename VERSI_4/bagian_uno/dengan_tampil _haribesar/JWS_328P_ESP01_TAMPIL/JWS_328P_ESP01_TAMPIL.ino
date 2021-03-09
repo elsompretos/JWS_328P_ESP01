@@ -30,11 +30,12 @@ Menggunakan Librray EEPROM bawaan Arduino IDE
 63 sesuaikan_tgl_hijriyah : 1
 65 sesuaikan_bright : 10
 67 sesuaikan_volume : 20
-69 Nama Masjid  : Masjid Raya Akbar Maulana - Ampera Raya
-119 Informasi 1 : Jadikan Sabar dan Sholat Sebagai Penolongmu
-169 Informasi 2 : Sedekah Melancarkan Rezekimu
-219 Informasi 3 : Subhanallah Walhamdulillah Laailahaillalhah
-269 Informasi 4 : Selamat Hari Raya Idul Fitri 1 Syawal 1441 H
+69 sesuaikan_volume_adzan : 15
+71 Nama Masjid  : Masjid Raya Akbar Maulana - Ampera Raya
+121 Informasi 1 : Jadikan Sabar dan Sholat Sebagai Penolongmu
+171 Informasi 2 : Sedekah Melancarkan Rezekimu
+221 Informasi 3 : Subhanallah Walhamdulillah Laailahaillalhah
+271 Informasi 4 : Selamat Hari Raya Idul Fitri 1 Syawal 1441 H
 */
  
 #include <DMD3asis.h>
@@ -194,14 +195,14 @@ switch (mode) {
         if(tx_ser.substring(0,2) == "SJ"){
           Serial.println(tx_ser);
 
-          String bnm_mesjid = readString(69);
+          String bnm_mesjid = readString(71);
 
           rtc.adjust(DateTime(tx_ser.substring(18,22).toInt(), tx_ser.substring(15,17).toInt(), tx_ser.substring(12,14).toInt(), tx_ser.substring(3,5).toInt(), tx_ser.substring(6,8).toInt(), tx_ser.substring(9,11).toInt())); 
           EEPROM.put(63, tx_ser.substring(23,25).toInt()); // Adj Hijriyah
           EEPROM.put(65, tx_ser.substring(26,28).toInt()); // Adj Kecerahan
           EEPROM.put(67, tx_ser.substring(29,31).toInt()); // Adj Volume
 
-          writeString(69, bnm_mesjid);
+          writeString(71, bnm_mesjid);
           
           CERAH_VOLUME();
           
@@ -293,7 +294,7 @@ switch (mode) {
          Serial.println(tx_ser);
          
          String isi_namamasjid = tx_ser.substring(3,tx_ser.length());
-         writeString(69, isi_namamasjid);
+         writeString(71, isi_namamasjid);
           
          BUZZ();
        }
@@ -303,7 +304,7 @@ switch (mode) {
          Serial.println(tx_ser);
 
          String isi_info = tx_ser.substring(3,tx_ser.length());
-         writeString(119, isi_info);
+         writeString(121, isi_info);
          
          BUZZ();
        }
@@ -459,7 +460,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           memset(isi_hari_raya, 0, 60);
           strcpy_P(isi_hari_raya, pesan_hariRaya[0]);
           
-          writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
+          writeString(121, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
           flag = 1; flag2 = 1;
           
           // Serial.println(F("tulis Maulid"));
@@ -469,7 +470,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           memset(isi_hari_raya, 0, 60);
           strcpy_P(isi_hari_raya, pesan_hariRaya[1]);
           
-          writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
+          writeString(121, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
           flag = 1; flag2 = 1;
 
           // Serial.println(F("tulis Idul Fitri"));
@@ -479,7 +480,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           memset(isi_hari_raya, 0, 60);
           strcpy_P(isi_hari_raya, pesan_hariRaya[2]);
           
-          writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
+          writeString(121, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
           flag = 1; flag2 = 1;
 
           // Serial.println(F("tulis Idul Adha"));
@@ -489,7 +490,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           memset(isi_hari_raya, 0, 60);
           strcpy_P(isi_hari_raya, pesan_hariRaya[4]);
           
-          writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
+          writeString(121, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
           flag = 1; flag2 = 1;
 
           // Serial.println(F("tulis Tahun Baru"));
@@ -499,7 +500,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
           memset(isi_hari_raya, 0, 60);
           strcpy_P(isi_hari_raya, pesan_hariRaya[5]);
           
-          writeString(119, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
+          writeString(121, isi_hari_raya + str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length()));
           flag = 1; flag2 = 1;
 
           // Serial.println(F("tulis Isra Miraj"));
@@ -510,7 +511,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
             memset(isi_hari_raya, 0, 60);
             strcpy_P(isi_hari_raya, pesan_hariRaya[3]);
             
-            writeString(119, isi_hari_raya);
+            writeString(121, isi_hari_raya);
             flag = 1;
   
             // Serial.println(F("tulis Hari Biasa"));
@@ -537,7 +538,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
     str_tanggal_hijriyah =  String(DayName) + ", " + String(Tanggal) + " " + String(BulanName) + " " + String(Tahun); 
   }
   else if(pilih == 3){ // ============= NAMA MASJID
-    str_tanggal_hijriyah = readString(69);
+    str_tanggal_hijriyah = readString(71);
   }
   else if(pilih == 4){ // ============= LURUSKAN
 
@@ -643,7 +644,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
   
   }
   else if(pilih == 6){ // ============= INFO 1
-    str_tanggal_hijriyah = readString(119); 
+    str_tanggal_hijriyah = readString(121); 
   }
   
   

@@ -106,17 +106,18 @@ void setup() {
   int sesuaikan_tgl_hijriyah = 1; EEPROM.put(63, sesuaikan_tgl_hijriyah); 
   int sesuaikan_bright = 10; EEPROM.put(65, sesuaikan_bright);
   int sesuaikan_volume = 20; EEPROM.put(67, sesuaikan_volume);
+  int sesuaikan_volume_adzan = 15; EEPROM.put(69, sesuaikan_volume_adzan);
 
 //  EEPROM.get(59, bsesuaikan_tgl_hijriyah); Serial.print("59 sesuaikan_tgl_hijriyah : "); Serial.println(bsesuaikan_tgl_hijriyah);
 //  EEPROM.get(61, bsesuaikan_bright); Serial.print("61 sesuaikan_bright : "); Serial.println(bsesuaikan_bright);
 //  EEPROM.get(63, bsesuaikan_volume); Serial.print("63 sesuaikan_volume : "); Serial.println(bsesuaikan_volume);
 //  Serial.println();
 
-  writeString(69, "Masjid Raya Akbar Maulana - Ampera Raya");
-  writeString(119, "Jadikan Sabar dan Sholat Sebagai Penolongmu");
-  // writeString(169, "Sedekah Melancarkan Rezekimu");
-  writeString(219, "Subhanallah Walhamdulillah Laailahaillalhah");
-  writeString(269, "Selamat Hari Raya Idul Fitri 1 Syawal 1441 H");
+  writeString(71, "Masjid Raya Akbar Maulana - Ampera Raya");
+  writeString(121, "Jadikan Sabar dan Sholat Sebagai Penolongmu");
+  writeString(171, "Sedekah Melancarkan Rezekimu");
+  writeString(221, "Subhanallah Walhamdulillah Laailahaillalhah");
+  writeString(271, "Selamat Hari Raya Idul Fitri 1 Syawal 1441 H");
 
 //  nama = readString(65);
 //  Serial.print("65 Nama Masjid  : "); Serial.println(nama);

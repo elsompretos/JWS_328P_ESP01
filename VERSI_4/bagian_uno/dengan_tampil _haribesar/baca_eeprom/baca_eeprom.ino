@@ -3,7 +3,7 @@ double  blatitude, blongitude, btz;
 int badj_subuh, badj_dzuhur, badj_ashar, badj_maghrib, badj_isya, badj_imsak, badj_terbit, badj_dhuha;
 int btpl_subuh, btpl_dzuhur, btpl_ashar, btpl_maghrib, btpl_isya, btpl_imsak, btpl_terbit, btpl_dhuha;
 int biqm_subuh, biqm_dzuhur, biqm_ashar, biqm_maghrib, biqm_isya, blam_zan, blama_imsak;
-int bsesuaikan_tgl_hijriyah, bsesuaikan_bright, bsesuaikan_volume;
+int bsesuaikan_tgl_hijriyah, bsesuaikan_bright, bsesuaikan_volume, bsesuaikan_volume_adzan;
   
 
 String nama;
@@ -110,6 +110,7 @@ void setup() {
   EEPROM.get(63, bsesuaikan_tgl_hijriyah); Serial.print("63 sesuaikan_tgl_hijriyah : "); Serial.println(bsesuaikan_tgl_hijriyah);
   EEPROM.get(65, bsesuaikan_bright); Serial.print("65 sesuaikan_bright : "); Serial.println(bsesuaikan_bright);
   EEPROM.get(67, bsesuaikan_volume); Serial.print("67 sesuaikan_volume : "); Serial.println(bsesuaikan_volume);
+  EEPROM.get(69, bsesuaikan_volume_adzan); Serial.print("69 sesuaikan_volume_adzan : "); Serial.println(bsesuaikan_volume_adzan);
   Serial.println();
 
 //  writeString(65, "Masjid Raya Akbar Maulana - Ampera Raya");
@@ -118,16 +119,16 @@ void setup() {
 //  writeString(215, "Subhanallah Walhamdulillah Laailahaillalhah");
 //  writeString(265, "Selamat Hari Raya Idul Fitri 1 Syawal 1441 H");
 
-  nama = readString(69);
-  Serial.print("69 Nama Masjid  : "); Serial.println(nama);
-  info1 = readString(119);
-  Serial.print("119 Informasi 1 : "); Serial.println(info1);
+  nama = readString(71);
+  Serial.print("71 Nama Masjid  : "); Serial.println(nama);
+  info1 = readString(121);
+  Serial.print("121 Informasi 1 : "); Serial.println(info1);
   //  info2 = readString(169);
   //  Serial.print("169 Informasi 2 : "); Serial.println(info2);
-  info3 = readString(219);
-  Serial.print("219 Informasi 3 : "); Serial.println(info3);
-  info4 = readString(269);
-  Serial.print("269 Informasi 4 : "); Serial.println(info4);
+  info3 = readString(221);
+  Serial.print("221 Informasi 3 : "); Serial.println(info3);
+  info4 = readString(271);
+  Serial.print("271 Informasi 4 : "); Serial.println(info4);
   Serial.println();
 
 
