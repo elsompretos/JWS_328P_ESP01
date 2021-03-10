@@ -86,7 +86,7 @@ void setup(){
   
   EEPROM.get(67, b_volume); 
   EEPROM.get(69, b_volume_adzan);
-  // mp3_set_volume (b_volume);
+  mp3_set_volume (b_volume);
 
   DDRD |= (1<<DDD2) ;//pin 2 is in output mode
 
@@ -711,13 +711,21 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
 
       if(dur_tpl_tx_sol < 10){
         if(wkt_msk_skrg==1){
+          
+          mp3_set_volume(b_volume_adzan);
           mp3_play (3); // Beep
         }
         else if (wkt_msk_skrg==2){
-          if(dur_tpl_tx_sol == 1){mp3_play (2);} // Play Adzan Subuh 
+          if(dur_tpl_tx_sol == 1){ 
+            mp3_set_volume(b_volume_adzan); 
+            mp3_play (2);
+            } // Play Adzan Subuh 
         }
         else if (wkt_msk_skrg==3 || wkt_msk_skrg==4 || wkt_msk_skrg==5 || wkt_msk_skrg==6){
-          if(dur_tpl_tx_sol == 1){ mp3_play (1); } // Play Adzan Biasa 
+          if(dur_tpl_tx_sol == 1){ 
+            mp3_set_volume(b_volume_adzan); 
+            mp3_play (1); 
+            } // Play Adzan Biasa 
         }
       }
   
@@ -984,20 +992,22 @@ void AMBIL_WAKTU_SHOLAT(){            // AMBIL WAKTU SHOLAT
         bsh=0; ash=0;
         mode=5;
       }
+
+      // mp3_set_volume (b_volume);
       
       if(Menit == 0 && Detik == 0){
-        if (Jam == 1 || Jam == 13){ mp3_play (21); }
-        if (Jam == 2 || Jam == 14){ mp3_play (22); }
-        if (Jam == 3 || Jam == 15){ mp3_play (23); }
-        if (Jam == 4 || Jam == 16){ mp3_play (24); }
-        if (Jam == 5 || Jam == 17){ mp3_play (25); }
-        if (Jam == 6 || Jam == 18){ mp3_play (26); }
-        if (Jam == 7 || Jam == 19){ mp3_play (27); }
-        if (Jam == 8 || Jam == 20){ mp3_play (28); }
-        if (Jam == 9 || Jam == 21){ mp3_play (29); }
-        if (Jam == 10 || Jam == 22){ mp3_play (30); }
-        if (Jam == 11 || Jam == 23){ mp3_play (31); }
-        if (Jam == 12 || Jam == 0){ mp3_play (32); } 
+        if (Jam == 1 || Jam == 13){ mp3_set_volume (b_volume); mp3_play (21); }
+        if (Jam == 2 || Jam == 14){ mp3_set_volume (b_volume); mp3_play (22); }
+        if (Jam == 3 || Jam == 15){ mp3_set_volume (b_volume); mp3_play (23); }
+        if (Jam == 4 || Jam == 16){ mp3_set_volume (b_volume); mp3_play (24); }
+        if (Jam == 5 || Jam == 17){ mp3_set_volume (b_volume); mp3_play (25); }
+        if (Jam == 6 || Jam == 18){ mp3_set_volume (b_volume); mp3_play (26); }
+        if (Jam == 7 || Jam == 19){ mp3_set_volume (b_volume); mp3_play (27); }
+        if (Jam == 8 || Jam == 20){ mp3_set_volume (b_volume); mp3_play (28); }
+        if (Jam == 9 || Jam == 21){ mp3_set_volume (b_volume); mp3_play (29); }
+        if (Jam == 10 || Jam == 22){ mp3_set_volume (b_volume); mp3_play (30); }
+        if (Jam == 11 || Jam == 23){ mp3_set_volume (b_volume); mp3_play (31); }
+        if (Jam == 12 || Jam == 0){ mp3_set_volume (b_volume); mp3_play (32); } 
       }
 }
 void CERAH_VOLUME(){
