@@ -1,41 +1,25 @@
-/*
-Perbaikan Tanggal 30 Juni 2020
-Menggunakan Librray EEPROM bawaan Arduino IDE
+/* 
 0 Latitude : -6.21
 5 Longitude : 106.85
 10 Timezone : 7.00
-15 adj_subuh : 2
-17 adj_dzuhur : 2
-19 adj_ashar : 2
-21 adj_maghrib : 2
-23 adj_isya : 2
-25 adj_imsak : 0
-27 adj_terbit : 0
-29 adj_dhuha : 2
-32 tpl_subuh : 1
-34 tpl_dzuhur : 1
-36 tpl_ashar : 1
-38 tpl_maghrib : 1
-40 tpl_isya : 1
-42 tpl_imsak : 1
-44 tpl_terbit : 1
-46 tpl_dhuha : 1
-49 iqm_subuh : 2
-51 iqm_dzuhur : 2
-53 iqm_ashar : 2
-55 iqm_maghrib : 2
-57 iqm_isya : 2
-59 lama_adzan : 4
-61 lama_imsak : 5
-63 sesuaikan_tgl_hijriyah : 1
-65 sesuaikan_bright : 10
-67 sesuaikan_volume : 20
-69 sesuaikan_volume_adzan : 15
+
+15 adj_subuh : 2    | 32 tpl_subuh : 1    | 49 iqm_subuh : 2
+17 adj_dzuhur : 2   | 34 tpl_dzuhur : 1   | 51 iqm_dzuhur : 2
+19 adj_ashar : 2    | 36 tpl_ashar : 1    | 53 iqm_ashar : 2
+21 adj_maghrib : 2  | 38 tpl_maghrib : 1  | 55 iqm_maghrib : 2
+23 adj_isya : 2     | 40 tpl_isya : 1     | 57 iqm_isya : 2
+25 adj_imsak : 0    | 42 tpl_imsak : 1    | 59 lama_adzan : 4
+27 adj_terbit : 0   | 44 tpl_terbit : 1   | 
+29 adj_dhuha : 2    | 46 tpl_dhuha : 1    | 61 lama_imsak : 0
+
+63 sesuaikan_tgl_hijriyah : 1 | 67 sesuaikan_volume : 20
+65 sesuaikan_bright : 10      | 69 sesuaikan_volume_adzan : 15
+
 71 Nama Masjid  : Masjid Raya Akbar Maulana - Ampera Raya
 121 Informasi 1 : Jadikan Sabar dan Sholat Sebagai Penolongmu
-171 Informasi 2 : Sedekah Melancarkan Rezekimu
 221 Informasi 3 : Subhanallah Walhamdulillah Laailahaillalhah
-271 Informasi 4 : Selamat Hari Raya Idul Fitri 1 Syawal 1441 H
+271 Informasi 4 : Selamat Hari Raya Idul Adha 10 Dzuhijjah 1442 H
+
 */
  
 #include <DMD3asis.h>
@@ -77,7 +61,7 @@ String txhh, txmm, txss, tx_hh_mm, tx_hh_mm_ss, namaHarimasehi ;
 String waktu_tbt, waktu_dhu, waktu_sbh, waktu_dzr, waktu_ims, waktu_asr, waktu_mgr, waktu_isy; //, jss;
 String wkt_iqomah, tpl_iqo_ss, namaMasukWkt, textIqohitmun, wkt_ims_sat;
 
-int b_bright, b_volume;
+int b_bright, b_volume, b_volume_adzan;
 
 int dur_tpl_tx_sol;
 String slt_sek;
@@ -101,7 +85,8 @@ void setup(){
   mp3_set_serial (Serial); 
   
   EEPROM.get(67, b_volume); 
-  mp3_set_volume (b_volume);
+  EEPROM.get(69, b_volume_adzan);
+  // mp3_set_volume (b_volume);
 
   DDRD |= (1<<DDD2) ;//pin 2 is in output mode
 
@@ -192,6 +177,7 @@ switch (mode) {
     
     if (tx_ser.length() > 0){
         // Setting Jam === SJ=23-59-55-24-05-2020-01-15-20   SJ=23-59-20-08-11-2019-01-15-20 4 digit terakhir (10-15) = brightness-volume
+        // SJ=23-59-55-24-05-2020-01-15-20-15   -15 = volume adzan
         if(tx_ser.substring(0,2) == "SJ"){
           Serial.println(tx_ser);
 
@@ -201,6 +187,7 @@ switch (mode) {
           EEPROM.put(63, tx_ser.substring(23,25).toInt()); // Adj Hijriyah
           EEPROM.put(65, tx_ser.substring(26,28).toInt()); // Adj Kecerahan
           EEPROM.put(67, tx_ser.substring(29,31).toInt()); // Adj Volume
+          EEPROM.put(69, tx_ser.substring(32,34).toInt()); // Adj Volume Adzan
 
           writeString(71, bnm_mesjid);
           
@@ -1017,6 +1004,7 @@ void CERAH_VOLUME(){
   EEPROM.get(65, b_bright); // Baca EEPROM kecerahan
   Timer1.pwm(9,b_bright);
   EEPROM.get(67, b_volume); // Baca EEPROM volume
+  EEPROM.get(69, b_volume_adzan); // Baca EEPROM volume
   mp3_set_volume (b_volume);
 }
 

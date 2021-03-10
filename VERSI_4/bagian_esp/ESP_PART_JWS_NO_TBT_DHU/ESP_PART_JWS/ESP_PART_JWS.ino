@@ -32,13 +32,13 @@ ESP8266WebServer server(80);
 ESP8266HTTPUpdateServer httpUpdater;
 
 String kirim;
-String bulan, tanggal, tahun, jam, menit, hijri, cerah, volume, adzan, iqosubuh, iqodzuhur, iqoashar, iqomaghrib, iqoisya;
+String bulan, tanggal, tahun, jam, menit, hijri, cerah, volume, volume_adzan, adzan, iqosubuh, iqodzuhur, iqoashar, iqomaghrib, iqoisya;
 String korimsak, korsubuh, korterbit, kordhuha, kordzuhur, korashar, kormaghrib, korisya;
 String tpl_imsak, tpl_subuh, tpl_terbit, tpl_dhuha, tpl_dzuhur, tpl_ashar, tpl_maghrib, tpl_isya;
 
 //==== JSON ====
 const char *fileadjhijri = "/adjhijrii.json";
-int adjhijr, adjcerah, adjvolume;
+int adjhijr, adjcerah, adjvolume, adjvolume_adzan;
 
 const char *fileiqomah = "/iqomah.json";
 int lamaadzan, lamaimsak, iqomahsubuh, iqomahdzuhur, iqomahashar,iqomahmaghrib, iqomahisya;
@@ -99,6 +99,7 @@ void setup() {
 
     if (server.hasArg("date")) {
        // date=2020-06-24&time=10%3A20&hijr=1&cerah=10&volume=15
+       // date=2021-03-10&time=01%3A01&adjhijr=1&adjcerah=10&adjvolumeadzan=15&adjvolume=20 == New : 10/03/2021
 
        tanggal = (server.arg(0)).substring(8,10);
        bulan = (server.arg(0)).substring(5,7);
@@ -106,9 +107,10 @@ void setup() {
        
        if ((server.arg(2)).toInt() < 10){ hijri = "0" + server.arg(2);  } else { hijri = server.arg(2);  }
        if ((server.arg(3)).toInt() < 10){ cerah = "0" + server.arg(3);  } else { cerah = server.arg(3);  }
-       if ((server.arg(4)).toInt() < 10){ volume = "0" + server.arg(4); } else { volume = server.arg(4); }
+       if ((server.arg(4)).toInt() < 10){ volume_adzan = "0" + server.arg(4); } else { volume_adzan = server.arg(4); }
+       if ((server.arg(5)).toInt() < 10){ volume = "0" + server.arg(5); } else { volume = server.arg(5); }
    
-       kirim = "SJ=" + server.arg(1) + "-00-" + tanggal + "-" + bulan + "-" + tahun + "-" + hijri + "-" + cerah + "-" + volume;
+       kirim = "SJ=" + server.arg(1) + "-00-" + tanggal + "-" + bulan + "-" + tahun + "-" + hijri + "-" + cerah + "-" + volume + "-" + volume_adzan;
   
        Serial.println(kirim);
 
@@ -123,7 +125,10 @@ void setup() {
        
        if ((server.arg(2)).toInt() < 10){ hijri = "0" + server.arg(2);  } else { hijri = server.arg(2);  }
        if ((server.arg(3)).toInt() < 10){ cerah = "0" + server.arg(3);  } else { cerah = server.arg(3);  }
-       if ((server.arg(4)).toInt() < 10){ volume = "0" + server.arg(4); } else { volume = server.arg(4); }
+       if ((server.arg(4)).toInt() < 10){ volume_adzan = "0" + server.arg(4); } else { volume_adzan = server.arg(4); }
+       if ((server.arg(5)).toInt() < 10){ volume = "0" + server.arg(5); } else { volume = server.arg(5); }
+   
+       
    
        kirim = "SA=" + server.arg(1) + "-00-" + tanggal + "-" + bulan + "-" + tahun;
        Serial.println(kirim);
@@ -260,11 +265,13 @@ void loadHijriConfig(const char *fileadjhijri){     // Load Penyesuaian Tanggal 
   adjhijr = doc["adjhijr"];
   adjcerah = doc["adjcerah"];
   adjvolume = doc["adjvolume"];
+  adjvolume_adzan = doc["adjvolume_adzan"];
 
   Serial.println("=========================================");
   Serial.print("Adj Hijriyah : "); Serial.println(adjhijr);
   Serial.print("Adj Kecerahan : "); Serial.println(adjcerah);
   Serial.print("Adj Volume : "); Serial.println(adjvolume);
+  Serial.print("Adj Volume Adzan : "); Serial.println(adjvolume_adzan);
   
 
   configFilehijr.close();
@@ -476,7 +483,7 @@ void loadTampil(const char *filetampil){            //          Load Tampil     
 }
 
 void makeHijriConfig(){                             //        Kalau Gak Ada Buat...      //
-  String dataawal = "{\"adjhijr\":1,\"adjcerah\":10,\"adjvolume\":100}";
+  String dataawal = "{\"adjhijr\":1,\"adjcerah\":10,\"adjvolume\":20,\"adjvolume_adzan\":15}";
 
   DynamicJsonDocument doc(1024);
   DeserializationError error = deserializeJson(doc, dataawal);
@@ -657,6 +664,10 @@ void XMLWaktu(){
     XML+="<Volume>";
     XML+= adjvolume;
     XML+="</Volume>"; 
+
+    XML+="<VolumeAdzan>";
+    XML+= adjvolume_adzan;
+    XML+="</VolumeAdzan>"; 
   XML+="</t>"; 
 }
 void handleXMLWaktu(){

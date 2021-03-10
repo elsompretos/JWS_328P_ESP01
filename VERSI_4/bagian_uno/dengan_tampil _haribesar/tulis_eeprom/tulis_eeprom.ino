@@ -117,7 +117,7 @@ void setup() {
   writeString(121, "Jadikan Sabar dan Sholat Sebagai Penolongmu");
   writeString(171, "Sedekah Melancarkan Rezekimu");
   writeString(221, "Subhanallah Walhamdulillah Laailahaillalhah");
-  writeString(271, "Selamat Hari Raya Idul Fitri 1 Syawal 1441 H");
+  writeString(271, "Selamat Hari Raya Idul Adha 10 Dzuhijjah 1442 H");
 
 //  nama = readString(65);
 //  Serial.print("65 Nama Masjid  : "); Serial.println(nama);
