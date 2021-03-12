@@ -38,7 +38,7 @@ String tpl_imsak, tpl_subuh, tpl_terbit, tpl_dhuha, tpl_dzuhur, tpl_ashar, tpl_m
 
 //==== JSON ====
 const char *fileadjhijri = "/adjhijrii.json";
-int adjhijr, adjcerah, adjvolume, adjvolume_adzan;
+int adjhijr, adjcerah, adjvolume, adjvolumeadzan;
 
 const char *fileiqomah = "/iqomah.json";
 int lamaadzan, lamaimsak, iqomahsubuh, iqomahdzuhur, iqomahashar,iqomahmaghrib, iqomahisya;
@@ -264,14 +264,15 @@ void loadHijriConfig(const char *fileadjhijri){     // Load Penyesuaian Tanggal 
   
   adjhijr = doc["adjhijr"];
   adjcerah = doc["adjcerah"];
+  adjvolumeadzan = doc["adjvolumeadzan"];
   adjvolume = doc["adjvolume"];
-  adjvolume_adzan = doc["adjvolume_adzan"];
-
+  
   Serial.println("=========================================");
   Serial.print("Adj Hijriyah : "); Serial.println(adjhijr);
   Serial.print("Adj Kecerahan : "); Serial.println(adjcerah);
+  Serial.print("Adj Volume Adzan : "); Serial.println(adjvolumeadzan);
   Serial.print("Adj Volume : "); Serial.println(adjvolume);
-  Serial.print("Adj Volume Adzan : "); Serial.println(adjvolume_adzan);
+
   
 
   configFilehijr.close();
@@ -483,7 +484,7 @@ void loadTampil(const char *filetampil){            //          Load Tampil     
 }
 
 void makeHijriConfig(){                             //        Kalau Gak Ada Buat...      //
-  String dataawal = "{\"adjhijr\":1,\"adjcerah\":10,\"adjvolume\":20,\"adjvolume_adzan\":15}";
+  String dataawal = "{\"adjhijr\":1,\"adjcerah\":10,\"adjvolumeadzan\":15,\"adjvolume\":20}";
 
   DynamicJsonDocument doc(1024);
   DeserializationError error = deserializeJson(doc, dataawal);
@@ -661,13 +662,15 @@ void XMLWaktu(){
     XML+= adjcerah;
     XML+="</Kecerahan>"; 
 
+    XML+="<VolumeAdzan>";
+    XML+= adjvolumeadzan;
+    XML+="</VolumeAdzan>"; 
+
     XML+="<Volume>";
     XML+= adjvolume;
     XML+="</Volume>"; 
 
-    XML+="<VolumeAdzan>";
-    XML+= adjvolume_adzan;
-    XML+="</VolumeAdzan>"; 
+    
   XML+="</t>"; 
 }
 void handleXMLWaktu(){

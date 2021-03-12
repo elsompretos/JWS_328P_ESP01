@@ -1,0 +1,61 @@
+{"adjhijr":"1","adjcerah":"12","adjvolume":"22","adjvolumeadzan":"15"}
+Berhasil mengubah configFileJws
+=========================================
+Adj Hijriyah : 1
+Adj Kecerahan : 12
+Adj Volume Adzan : 15
+Adj Volume : 22
+SJ=16:50-00-12-03-2021-01-12-22-15
+SA=09:34-00-12-03-2021
+{"latitude":"-6.21","longitude":"106.85","zonawaktu":"7"}
+Berhasil mengubah configFileJws
+=========================================
+latitude : -6.21
+longitude : 106.85
+zonawaktu : 7
+LL=-6.21|106.85|7
+{"namamasjid":"Masjid Raya Akbar Maulana","info1":"Jadikan Sabar dan Sholat Sebagai Penolongmu"}
+Berhasil mengubah configFileJws
+=========================================
+nama masjid : Masjid Raya Akbar Maulana
+info1 : Jadikan Sabar dan Sholat Sebagai Penolongmu
+NM=Masjid Raya Akbar Maulana
+{"namamasjid":"Masjid Raya Akbar Maulana","info1":"Jadikan Sabar dan Sholat Sebagai Penolongmu"}
+Berhasil mengubah configFileJws
+=========================================
+nama masjid : Masjid Raya Akbar Maulana
+info1 : Jadikan Sabar dan Sholat Sebagai Penolongmu
+IN=Jadikan Sabar dan Sholat Sebagai Penolongmu
+{"lamaadzan":"4","lamaimsak":"0","iqomahsubuh":"2","iqomahdzuhur":"2","iqomahashar":"2","iqomahmaghrib":"2","iqomahisya":"2"}
+Berhasil mengubah configFileJws
+=========================================
+lama adzan : 4
+lama imsak : 0
+iqomah subuh : 2
+iqomah dzuhur : 2
+iqomah ashar : 2
+iqomah maghrib : 2
+iqomah isya : 2
+IQ=02-02-02-02-02-04
+{"tpl_imsak":"1","tpl_subuh":"1","tpl_dzuhur":"1","tpl_ashar":"1","tpl_maghrib":"1","tpl_isya":"1"}
+Berhasil mengubah configFileJws
+=========================================
+tpl imsak : 1
+tpl subuh : 1
+tpl dzuhur : 1
+tpl ashar : 1
+tpl maghrib : 1
+tpl isya : 1
+TP=01-01-00-00-01-01-01-01
+{"korimsak":"2","korsubuh":"2","korterbit":"0","kordhuha":"0","kordzuhur":"2","korashar":"2","kormaghrib":"2","korisya":"2"}
+Berhasil mengubah configFileJws
+=========================================
+kor imsak : 2
+kor subuh : 2
+kor terbit : 0
+kor dhuha : 0
+kor dzuhur : 2
+kor ashar : 2
+kor maghrib : 2
+kor isya : 2
+KR=02-02-02-02-02-02-00-00

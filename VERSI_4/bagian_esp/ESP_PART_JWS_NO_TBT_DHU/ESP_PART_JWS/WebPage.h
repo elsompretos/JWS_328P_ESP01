@@ -171,11 +171,11 @@ table, th, td {
     </tr>
     <tr> 
       <td >Hijriyah</td>
-      <td ><input style='text-align:center' type='number' name='adjhijr' id='adjhijr' value='1' min='0' max='1'></td> 
+      <td ><input style='text-align:center' type='number' name='adjhijr' id='adjhijr' value='1' min='1' max='1'></td> 
     </tr>
     <tr> 
       <td >Kecerahan</td>
-      <td ><input style='text-align:center' type='number' name='adjcerah' id='adjcerah' value='10' min='10' max='99'></td> 
+      <td ><input style='text-align:center' type='number' name='adjcerah' id='adjcerah' value='10' min='1' max='99'></td> 
     </tr>
     <tr> 
       <td >Volume Adzan</td>
@@ -401,13 +401,14 @@ function handleServerResponse(){
    message = xmldoc[0].firstChild.nodeValue;
    document.getElementById('adjcerah').value=message;
 
+   xmldoc = xmlResponse.getElementsByTagName('VolumeAdzan');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('adjvolumeadzan').value=message;
+
    xmldoc = xmlResponse.getElementsByTagName('Volume');
    message = xmldoc[0].firstChild.nodeValue;
    document.getElementById('adjvolume').value=message;
 
-   xmldoc = xmlResponse.getElementsByTagName('VolumeAdzan');
-   message = xmldoc[0].firstChild.nodeValue;
-   document.getElementById('adjvolumeadzan').value=message;
  }
 }
 function proseskoordinat(){
