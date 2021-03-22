@@ -9,8 +9,8 @@
 21 adj_maghrib : 2  | 38 tpl_maghrib : 1  | 55 iqm_maghrib : 2
 23 adj_isya : 2     | 40 tpl_isya : 1     | 57 iqm_isya : 2
 25 adj_imsak : 0    | 42 tpl_imsak : 1    | 59 lama_adzan : 4
-27 adj_terbit : 0   | 44 tpl_terbit : 1   | 
-29 adj_dhuha : 2    | 46 tpl_dhuha : 1    | 61 lama_imsak : 0
+27 adj_terbit : 0   | 44 tpl_terbit : 0   | 
+29 adj_dhuha : 2    | 46 tpl_dhuha : 0    | 61 lama_imsak : 0
 
 63 sesuaikan_tgl_hijriyah : 1 | 67 sesuaikan_volume : 20
 65 sesuaikan_bright : 10      | 69 sesuaikan_volume_adzan : 15
@@ -76,7 +76,7 @@ byte wkt_msk_skrg;
 
 const char namaBulanMasehi[12][12] PROGMEM = {"Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
 const char namaHariMasehi[7][7] PROGMEM = {"Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"};
-const char namaWaktuSholat[8][12] PROGMEM = {"IMSAK ", " SUBUH ", " TERBIT ", " DHUHA ", " DZUHUR ", " ASHAR ", " MAGHRIB ", " ISYA "};
+const char namaWaktuSholat[8][12] PROGMEM = {"Imsak ", " Subuh ", " Terbit ", " Dhuha ", " Dzuhur ", " Ashar ", " Maghrib ", " Isya "};
 const char pesan[][60] PROGMEM = {"Matikan HP - Luruskan Shaf - Matikan HP - Luruskan Shaf"};
 // const char pesan_hariRaya[6][60] PROGMEM = {"Hari Maulid Nabi Muhammad SAW ", "Selamat Hari Raya Idul Fitri ", "Selamat Hari Raya Idul Adha ", "Jadikan Sabar dan Sholat Sebagai Penolongmu", "Selamat Tahun Baru Islam ", "Selamat Isra Miraj "};
 
@@ -747,25 +747,31 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
 
       if(dur_tpl_tx_sol < 10){ // imsak
         if(wkt_msk_skrg==1){
+          if (b_beep == 1){
           PORTD &= ~(1<<PORTD2);
           delay(500);
           PORTD |=(1<< PORTD2);
           delay(500);
           PORTD &= ~(1<<PORTD2);
+          }
         }
         else if(wkt_msk_skrg==2){
+          if (b_beep == 1){
           PORTD &= ~(1<<PORTD2);
           delay(500);
           PORTD |=(1<< PORTD2);
           delay(500);
           PORTD &= ~(1<<PORTD2);
+          }
         }
         else if(wkt_msk_skrg==3 || wkt_msk_skrg==4 || wkt_msk_skrg==5 || wkt_msk_skrg==6){
+          if (b_beep == 1){
           PORTD &= ~(1<<PORTD2);
           delay(500);
           PORTD |=(1<< PORTD2);
           delay(500);
           PORTD &= ~(1<<PORTD2);
+          }
         }
       } else if(dur_tpl_tx_sol == 10){
 
