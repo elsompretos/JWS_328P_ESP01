@@ -188,8 +188,8 @@ switch (mode) {
     
     if (tx_ser.length() > 0){
         // Setting Jam === SJ=23-59-55-24-05-2020-01-15-20   SJ=23-59-20-08-11-2019-01-15-20 4 digit terakhir (10-15) = brightness-volume
-        // SJ=23-59-55-24-05-2020-01-15-20-15   -15 = volume adzan
-        // SJ=12:49-00-22-03-2021-01-12-22-02-00 -00 = beep status
+        // SJ=23-59-55-24-05-2020-01-15-20-15     -15 = volume adzan
+        // SJ=12:49-00-22-03-2021-01-12-22-02-00  -00 = beep status
 
         if(tx_ser.substring(0,2) == "SJ"){
           Serial.println(tx_ser);
