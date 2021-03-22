@@ -276,7 +276,9 @@ switch (mode) {
          BUZZ();
        }
 
-       // Setting Nama masjid === NM=Masjid Raya Akbar Maulana - Ampera Raya
+       // Setting Nama masjid === NM=Masjid Raya Akbar Maulana - Ampera Raya // NM=Musholah Tetep Iman Alm.Hj.Sri Loeloet
+
+
        else if(tx_ser.substring(0,2) == "NM"){
          Serial.println(tx_ser);
          
@@ -436,8 +438,9 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
     
     EEPROM.get(63, b_ses_hijriyah); 
     str_tanggal_hijriyah = Kuwaiti_algorithm(Tanggal, Bulan, Tahun, hariIni, b_ses_hijriyah);
+
     
-    kode_hari_raya=(str_tanggal_hijriyah.substring(0, 1)).toInt();
+     /* kode_hari_raya=(str_tanggal_hijriyah.substring(0, 1)).toInt();
 
     if(flag==0){ // Menulis EEPROM Sekali pada pukul 01:00      
       if(Jam == 0 && (Menit == 0 || Menit == 1 || Menit == 2 || Menit == 3 || Menit == 4))
@@ -509,6 +512,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
     }
     
     str_tanggal_hijriyah = str_tanggal_hijriyah.substring(1, str_tanggal_hijriyah.length());
+    */
  
   }
   else if(pilih == 2){ // ============= TANGGAL MASEHI
@@ -690,6 +694,9 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
     int b_lama_imsak;
     EEPROM.get(61, b_lama_imsak); // harus 0
     int b_lama;
+    //int b_voladzan;
+    //EEPROM.get(69, b_voladzan);
+    
 
     // Membedakan waktu masuk Imsak dan Jadwal sholat
 
@@ -711,7 +718,6 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
 
       if(dur_tpl_tx_sol < 10){
         if(wkt_msk_skrg==1){
-          
           mp3_set_volume(b_volume_adzan);
           mp3_play (3); // Beep
         }
@@ -992,9 +998,7 @@ void AMBIL_WAKTU_SHOLAT(){            // AMBIL WAKTU SHOLAT
         bsh=0; ash=0;
         mode=5;
       }
-
-      // mp3_set_volume (b_volume);
-      
+           
       if(Menit == 0 && Detik == 0){
         if (Jam == 1 || Jam == 13){ mp3_set_volume (b_volume); mp3_play (21); }
         if (Jam == 2 || Jam == 14){ mp3_set_volume (b_volume); mp3_play (22); }
@@ -1009,12 +1013,17 @@ void AMBIL_WAKTU_SHOLAT(){            // AMBIL WAKTU SHOLAT
         if (Jam == 11 || Jam == 23){ mp3_set_volume (b_volume); mp3_play (31); }
         if (Jam == 12 || Jam == 0){ mp3_set_volume (b_volume); mp3_play (32); } 
       }
+      
+      if(Menit == 30 && Detik == 0){
+         mp3_set_volume (b_volume); 
+         mp3_play (34); 
+      }
 }
 void CERAH_VOLUME(){
   EEPROM.get(65, b_bright); // Baca EEPROM kecerahan
   Timer1.pwm(9,b_bright);
   EEPROM.get(67, b_volume); // Baca EEPROM volume
-  EEPROM.get(69, b_volume_adzan); // Baca EEPROM volume
+  EEPROM.get(69, b_volume_adzan); // Baca EEPROM volume adzan
   mp3_set_volume (b_volume);
 }
 
