@@ -1,0 +1,3 @@
+clear eeprom
+tulis_eeprom
+baca_eeprom

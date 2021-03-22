@@ -243,7 +243,7 @@ table, th, td {
   <tbody>
     <tr>
       <td >Masjid</td>
-      <td ><form onsubmit='setNamamasjid()'><input style='text-align:center' type='text' name='namamasjid' id='namamasjid' value='Masjid Akbar Maulana' maxlength='45'></td>
+      <td ><form onsubmit='setNamamasjid()'><input style='text-align:center' type='text' name='namamasjid' id='namamasjid' value='Masjid Akbar Maulana' maxlength='95'></td>
     </tr>
     <tr>
       <td style='text-align:center' colspan='2'><input type='submit' value='Kirim'></form></td>

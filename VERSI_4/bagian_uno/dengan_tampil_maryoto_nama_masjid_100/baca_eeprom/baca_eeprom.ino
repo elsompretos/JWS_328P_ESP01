@@ -121,10 +121,8 @@ void setup() {
 
   nama = readString(71);
   Serial.print("71 Nama Masjid  : "); Serial.println(nama);
-  info1 = readString(121);
-  Serial.print("121 Informasi 1 : "); Serial.println(info1);
-  //  info2 = readString(169);
-  //  Serial.print("169 Informasi 2 : "); Serial.println(info2);
+  info1 = readString(171);
+  Serial.print("171 Informasi 1 : "); Serial.println(info1);
   info3 = readString(221);
   Serial.print("221 Informasi 3 : "); Serial.println(info3);
   info4 = readString(271);

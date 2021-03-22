@@ -114,8 +114,8 @@ void setup() {
 //  Serial.println();
 
   writeString(71, "Masjid Raya Akbar Maulana - Ampera Raya");
-  writeString(121, "Jadikan Sabar dan Sholat Sebagai Penolongmu");
-  writeString(171, "Sedekah Melancarkan Rezekimu");
+  writeString(171, "Jadikan Sabar dan Sholat Sebagai Penolongmu");
+  // writeString(171, "Sedekah Melancarkan Rezekimu");
   writeString(221, "Subhanallah Walhamdulillah Laailahaillalhah");
   writeString(271, "Selamat Hari Raya Idul Adha 10 Dzuhijjah 1442 H");
 
