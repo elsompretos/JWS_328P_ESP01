@@ -35,9 +35,8 @@
 69 sesuaikan_volume_adzan : 15
 
 71 Nama Masjid  : Musholah Tetep Iman Alm.Hj.Sri Loeloet
-
 121 Informasi 1 : Jadikan Sabar dan Sholat Sebagai Penolongmu
 221 Informasi 3 : Subhanallah Walhamdulillah Laailahaillalhah
 271 Informasi 4 : Selamat Hari Raya Idul Adha 10 Dzuhijjah 1442 H
 
-
+321 beep_status : 0

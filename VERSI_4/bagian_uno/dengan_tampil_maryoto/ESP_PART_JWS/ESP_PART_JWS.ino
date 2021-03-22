@@ -32,13 +32,13 @@ ESP8266WebServer server(80);
 ESP8266HTTPUpdateServer httpUpdater;
 
 String kirim;
-String bulan, tanggal, tahun, jam, menit, hijri, cerah, volume, volume_adzan, adzan, iqosubuh, iqodzuhur, iqoashar, iqomaghrib, iqoisya;
+String bulan, tanggal, tahun, jam, menit, hijri, cerah, volume, volume_adzan, adzan, iqosubuh, iqodzuhur, iqoashar, iqomaghrib, iqoisya, beep_status;
 String korimsak, korsubuh, korterbit, kordhuha, kordzuhur, korashar, kormaghrib, korisya;
 String tpl_imsak, tpl_subuh, tpl_terbit, tpl_dhuha, tpl_dzuhur, tpl_ashar, tpl_maghrib, tpl_isya;
 
 //==== JSON ====
 const char *fileadjhijri = "/adjhijrii.json";
-int adjhijr, adjcerah, adjvolume, adjvolumeadzan;
+int adjhijr, adjcerah, adjvolume, adjvolumeadzan, beepstatus;
 
 const char *fileiqomah = "/iqomah.json";
 int lamaadzan, lamaimsak, iqomahsubuh, iqomahdzuhur, iqomahashar,iqomahmaghrib, iqomahisya;
@@ -109,8 +109,9 @@ void setup() {
        if ((server.arg(3)).toInt() < 10){ cerah = "0" + server.arg(3);  } else { cerah = server.arg(3);  }
        if ((server.arg(4)).toInt() < 10){ volume_adzan = "0" + server.arg(4); } else { volume_adzan = server.arg(4); }
        if ((server.arg(5)).toInt() < 10){ volume = "0" + server.arg(5); } else { volume = server.arg(5); }
+       if ((server.arg(6)).toInt() < 10){ beep_status = "0" + server.arg(6); } else { beep_status = server.arg(6); }
    
-       kirim = "SJ=" + server.arg(1) + "-00-" + tanggal + "-" + bulan + "-" + tahun + "-" + hijri + "-" + cerah + "-" + volume + "-" + volume_adzan;
+       kirim = "SJ=" + server.arg(1) + "-00-" + tanggal + "-" + bulan + "-" + tahun + "-" + hijri + "-" + cerah + "-" + volume + "-" + volume_adzan + "-" + beep_status;
   
        Serial.println(kirim);
 
@@ -266,12 +267,14 @@ void loadHijriConfig(const char *fileadjhijri){     // Load Penyesuaian Tanggal 
   adjcerah = doc["adjcerah"];
   adjvolumeadzan = doc["adjvolumeadzan"];
   adjvolume = doc["adjvolume"];
+  beepstatus = doc["beepstatus"];
   
   Serial.println("=========================================");
   Serial.print("Adj Hijriyah : "); Serial.println(adjhijr);
   Serial.print("Adj Kecerahan : "); Serial.println(adjcerah);
   Serial.print("Adj Volume Adzan : "); Serial.println(adjvolumeadzan);
   Serial.print("Adj Volume : "); Serial.println(adjvolume);
+  Serial.print("Beep Status : "); Serial.println(beepstatus);
 
   
 
@@ -484,7 +487,7 @@ void loadTampil(const char *filetampil){            //          Load Tampil     
 }
 
 void makeHijriConfig(){                             //        Kalau Gak Ada Buat...      //
-  String dataawal = "{\"adjhijr\":1,\"adjcerah\":10,\"adjvolumeadzan\":15,\"adjvolume\":20}";
+  String dataawal = "{\"adjhijr\":1,\"adjcerah\":10,\"adjvolumeadzan\":15,\"adjvolume\":20,\"beepstatus\":1}";
 
   DynamicJsonDocument doc(1024);
   DeserializationError error = deserializeJson(doc, dataawal);
@@ -669,6 +672,10 @@ void XMLWaktu(){
     XML+="<Volume>";
     XML+= adjvolume;
     XML+="</Volume>"; 
+
+    XML+="<BeepStatus>";
+    XML+= beepstatus;
+    XML+="</BeepStatus>"; 
 
     
   XML+="</t>"; 

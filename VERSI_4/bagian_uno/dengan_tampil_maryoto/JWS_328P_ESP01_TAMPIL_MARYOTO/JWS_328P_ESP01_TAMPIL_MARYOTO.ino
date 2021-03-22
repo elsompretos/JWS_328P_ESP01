@@ -20,6 +20,9 @@
 221 Informasi 3 : Subhanallah Walhamdulillah Laailahaillalhah
 271 Informasi 4 : Selamat Hari Raya Idul Adha 10 Dzuhijjah 1442 H
 
+321 beep_status : 0
+
+
 */
  
 #include <DMD3asis.h>
@@ -62,6 +65,7 @@ String waktu_tbt, waktu_dhu, waktu_sbh, waktu_dzr, waktu_ims, waktu_asr, waktu_m
 String wkt_iqomah, tpl_iqo_ss, namaMasukWkt, textIqohitmun, wkt_ims_sat;
 
 int b_bright, b_volume, b_volume_adzan;
+byte b_beep;
 
 int dur_tpl_tx_sol;
 String slt_sek;
@@ -74,7 +78,7 @@ const char namaBulanMasehi[12][12] PROGMEM = {"Januari", "Februari", "Maret", "A
 const char namaHariMasehi[7][7] PROGMEM = {"Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"};
 const char namaWaktuSholat[8][12] PROGMEM = {"IMSAK ", " SUBUH ", " TERBIT ", " DHUHA ", " DZUHUR ", " ASHAR ", " MAGHRIB ", " ISYA "};
 const char pesan[][60] PROGMEM = {"Matikan HP - Luruskan Shaf - Matikan HP - Luruskan Shaf"};
-const char pesan_hariRaya[6][60] PROGMEM = {"Hari Maulid Nabi Muhammad SAW ", "Selamat Hari Raya Idul Fitri ", "Selamat Hari Raya Idul Adha ", "Jadikan Sabar dan Sholat Sebagai Penolongmu", "Selamat Tahun Baru Islam ", "Selamat Isra Miraj "};
+// const char pesan_hariRaya[6][60] PROGMEM = {"Hari Maulid Nabi Muhammad SAW ", "Selamat Hari Raya Idul Fitri ", "Selamat Hari Raya Idul Adha ", "Jadikan Sabar dan Sholat Sebagai Penolongmu", "Selamat Tahun Baru Islam ", "Selamat Isra Miraj "};
 
 void scan(){
   display.refresh();
@@ -86,22 +90,29 @@ void setup(){
   
   EEPROM.get(67, b_volume); 
   EEPROM.get(69, b_volume_adzan);
+
+  EEPROM.get(321, b_beep);
+
+  
   mp3_set_volume (b_volume);
 
-  DDRD |= (1<<DDD2) ;//pin 2 is in output mode
-
- for (int dd = 0; dd < 6; dd++){
-    if (dd % 2 == 0){
-      //digitalWrite(buzzer,HIGH);
-      PORTD |=(1<< PORTD2);
-    }
-    else 
-    {
-      //digitalWrite(buzzer,LOW);
-      PORTD &= ~(1<<PORTD2);
-    }
-    delay(250);
- }
+  if (b_beep == 1){
+    
+      DDRD |= (1<<DDD2) ;//pin 2 is in output mode
+    
+     for (int dd = 0; dd < 6; dd++){
+        if (dd % 2 == 0){
+          //digitalWrite(buzzer,HIGH);
+          PORTD |=(1<< PORTD2);
+        }
+        else 
+        {
+          //digitalWrite(buzzer,LOW);
+          PORTD &= ~(1<<PORTD2);
+        }
+        delay(250);
+     }
+  } 
 
   EEPROM.get(65, b_bright); // Baca EEPROM kecerahan
   
@@ -178,6 +189,8 @@ switch (mode) {
     if (tx_ser.length() > 0){
         // Setting Jam === SJ=23-59-55-24-05-2020-01-15-20   SJ=23-59-20-08-11-2019-01-15-20 4 digit terakhir (10-15) = brightness-volume
         // SJ=23-59-55-24-05-2020-01-15-20-15   -15 = volume adzan
+        // SJ=12:49-00-22-03-2021-01-12-22-02-00 -00 = beep status
+
         if(tx_ser.substring(0,2) == "SJ"){
           Serial.println(tx_ser);
 
@@ -190,6 +203,8 @@ switch (mode) {
           EEPROM.put(69, tx_ser.substring(32,34).toInt()); // Adj Volume Adzan
 
           writeString(71, bnm_mesjid);
+
+          EEPROM.put(321, tx_ser.substring(35,37).toInt()); // beep_status
           
           CERAH_VOLUME();
           
@@ -694,10 +709,7 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
     int b_lama_imsak;
     EEPROM.get(61, b_lama_imsak); // harus 0
     int b_lama;
-    //int b_voladzan;
-    //EEPROM.get(69, b_voladzan);
     
-
     // Membedakan waktu masuk Imsak dan Jadwal sholat
 
     if(slt_sek=="IMSAK"){
@@ -714,9 +726,7 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
 
       if (dur_tpl_tx_sol <= (60 * b_lama)){
         
-
-
-      if(dur_tpl_tx_sol < 10){
+       /*if(dur_tpl_tx_sol < 10){ // imsak
         if(wkt_msk_skrg==1){
           mp3_set_volume(b_volume_adzan);
           mp3_play (3); // Beep
@@ -733,10 +743,45 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
             mp3_play (1); 
             } // Play Adzan Biasa 
         }
+      }*/
+
+      if(dur_tpl_tx_sol < 10){ // imsak
+        if(wkt_msk_skrg==1){
+          PORTD &= ~(1<<PORTD2);
+          delay(500);
+          PORTD |=(1<< PORTD2);
+          delay(500);
+          PORTD &= ~(1<<PORTD2);
+        }
+        else if(wkt_msk_skrg==2){
+          PORTD &= ~(1<<PORTD2);
+          delay(500);
+          PORTD |=(1<< PORTD2);
+          delay(500);
+          PORTD &= ~(1<<PORTD2);
+        }
+        else if(wkt_msk_skrg==3 || wkt_msk_skrg==4 || wkt_msk_skrg==5 || wkt_msk_skrg==6){
+          PORTD &= ~(1<<PORTD2);
+          delay(500);
+          PORTD |=(1<< PORTD2);
+          delay(500);
+          PORTD &= ~(1<<PORTD2);
+        }
+      } else if(dur_tpl_tx_sol == 10){
+
+        if (wkt_msk_skrg==2){
+          mp3_set_volume(b_volume_adzan); 
+          mp3_play (2);
+        }
+        else if (wkt_msk_skrg==3 || wkt_msk_skrg==4 || wkt_msk_skrg==5 || wkt_msk_skrg==6){
+          mp3_set_volume(b_volume_adzan); 
+          mp3_play (1);
+        }
+        
       }
+      
   
         display.clear();
-        
         
         if (dur_tpl_tx_sol % 2 == 0){
           display.setFont(System5x7);
@@ -819,21 +864,24 @@ void TPL_QD_IQM(){                    // MENAMPILKAN IQOMAH
       if (du_iq <= iqm_ee){
 
         // Buzzer pengingat akhir iqomah
-      if(du_iq > (iqm_ee-10) && du_iq < iqm_ee){
-         PORTD &= ~(1<<PORTD2);
-         delay(500);
-         PORTD |=(1<< PORTD2);
-         delay(500);
-         PORTD &= ~(1<<PORTD2);
-      }
-      // Buzzer pengingat akhir iqomah detik terakhir
-      if(du_iq == iqm_ee){
-         PORTD &= ~(1<<PORTD2);
-         delay(500);
-         PORTD |=(1<< PORTD2);
-         delay(2000);
-         PORTD &= ~(1<<PORTD2);
-      }
+
+          if (b_beep == 1){
+              if(du_iq > (iqm_ee-10) && du_iq < iqm_ee){
+                 PORTD &= ~(1<<PORTD2);
+                 delay(500);
+                 PORTD |=(1<< PORTD2);
+                 delay(500);
+                 PORTD &= ~(1<<PORTD2);
+              }
+              // Buzzer pengingat akhir iqomah detik terakhir
+              if(du_iq == iqm_ee){
+                 PORTD &= ~(1<<PORTD2);
+                 delay(500);
+                 PORTD |=(1<< PORTD2);
+                 delay(2000);
+                 PORTD &= ~(1<<PORTD2);
+              }
+          }
         
           sis_wkt_iqo = iqm_ee - du_iq;
 
@@ -1000,18 +1048,21 @@ void AMBIL_WAKTU_SHOLAT(){            // AMBIL WAKTU SHOLAT
       }
            
       if(Menit == 0 && Detik == 0){
-        if (Jam == 1 || Jam == 13){ mp3_set_volume (b_volume); mp3_play (21); }
-        if (Jam == 2 || Jam == 14){ mp3_set_volume (b_volume); mp3_play (22); }
-        if (Jam == 3 || Jam == 15){ mp3_set_volume (b_volume); mp3_play (23); }
-        if (Jam == 4 || Jam == 16){ mp3_set_volume (b_volume); mp3_play (24); }
-        if (Jam == 5 || Jam == 17){ mp3_set_volume (b_volume); mp3_play (25); }
-        if (Jam == 6 || Jam == 18){ mp3_set_volume (b_volume); mp3_play (26); }
-        if (Jam == 7 || Jam == 19){ mp3_set_volume (b_volume); mp3_play (27); }
-        if (Jam == 8 || Jam == 20){ mp3_set_volume (b_volume); mp3_play (28); }
-        if (Jam == 9 || Jam == 21){ mp3_set_volume (b_volume); mp3_play (29); }
-        if (Jam == 10 || Jam == 22){ mp3_set_volume (b_volume); mp3_play (30); }
-        if (Jam == 11 || Jam == 23){ mp3_set_volume (b_volume); mp3_play (31); }
-        if (Jam == 12 || Jam == 0){ mp3_set_volume (b_volume); mp3_play (32); } 
+        
+        mp3_set_volume (b_volume);
+        
+        if (Jam == 1 || Jam == 13){ mp3_play (21); }
+        if (Jam == 2 || Jam == 14){ mp3_play (22); }
+        if (Jam == 3 || Jam == 15){ mp3_play (23); }
+        if (Jam == 4 || Jam == 16){ mp3_play (24); }
+        if (Jam == 5 || Jam == 17){ mp3_play (25); }
+        if (Jam == 6 || Jam == 18){ mp3_play (26); }
+        if (Jam == 7 || Jam == 19){ mp3_play (27); }
+        if (Jam == 8 || Jam == 20){ mp3_play (28); }
+        if (Jam == 9 || Jam == 21){ mp3_play (29); }
+        if (Jam == 10 || Jam == 22){ mp3_play (30); }
+        if (Jam == 11 || Jam == 23){ mp3_play (31); }
+        if (Jam == 12 || Jam == 0){ mp3_play (32); } 
       }
       
       if(Menit == 30 && Detik == 0){

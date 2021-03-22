@@ -185,6 +185,10 @@ table, th, td {
       <td >Volume Jam</td>
       <td ><input style='text-align:center' type='number' name='adjvolume' id='adjvolume' value='20' min='0' max='99'></td> 
     </tr>
+    <tr> 
+      <td >Beep</td>
+      <td ><input style='text-align:center' type='number' name='beepstatus' id='beepstatus' value='1' min='0' max='1'></td> 
+    </tr>
     <tr>
     <td style='text-align:center' colspan='2'><input type='submit' value='Manual'></form></td>
    </tr>
@@ -408,6 +412,10 @@ function handleServerResponse(){
    xmldoc = xmlResponse.getElementsByTagName('Volume');
    message = xmldoc[0].firstChild.nodeValue;
    document.getElementById('adjvolume').value=message;
+
+   xmldoc = xmlResponse.getElementsByTagName('BeepStatus');
+   message = xmldoc[0].firstChild.nodeValue;
+   document.getElementById('beepstatus').value=message;
 
  }
 }
@@ -710,8 +718,9 @@ function setWaktu() {
   var adjcerah = document.getElementById('adjcerah').value;
   var adjvolume = document.getElementById('adjvolume').value;
   var adjvolumeadzan = document.getElementById('adjvolumeadzan').value;
+  var beepstatus = document.getElementById('beepstatus').value;
 
-  var datainfoWaktu = {adjhijr:adjhijr, adjcerah:adjcerah, adjvolume:adjvolume, adjvolumeadzan:adjvolumeadzan};
+  var datainfoWaktu = {adjhijr:adjhijr, adjcerah:adjcerah, adjvolume:adjvolume, adjvolumeadzan:adjvolumeadzan, beepstatus:beepstatus};
   
   var xhr = new XMLHttpRequest();
   var url = '/simpanWaktu';

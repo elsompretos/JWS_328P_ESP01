@@ -3,7 +3,7 @@ double  blatitude, blongitude, btz;
 int badj_subuh, badj_dzuhur, badj_ashar, badj_maghrib, badj_isya, badj_imsak, badj_terbit, badj_dhuha;
 int btpl_subuh, btpl_dzuhur, btpl_ashar, btpl_maghrib, btpl_isya, btpl_imsak, btpl_terbit, btpl_dhuha;
 int biqm_subuh, biqm_dzuhur, biqm_ashar, biqm_maghrib, biqm_isya, blam_zan, blama_imsak;
-int bsesuaikan_tgl_hijriyah, bsesuaikan_bright, bsesuaikan_volume, bsesuaikan_volume_adzan;
+int bsesuaikan_tgl_hijriyah, bsesuaikan_bright, bsesuaikan_volume, bsesuaikan_volume_adzan, bbeep_status;
   
 
 String nama;
@@ -129,6 +129,9 @@ void setup() {
   Serial.print("221 Informasi 3 : "); Serial.println(info3);
   info4 = readString(271);
   Serial.print("271 Informasi 4 : "); Serial.println(info4);
+  Serial.println();
+
+  EEPROM.get(321, bbeep_status); Serial.print("321 beep_status : "); Serial.println(bbeep_status);
   Serial.println();
 
 
