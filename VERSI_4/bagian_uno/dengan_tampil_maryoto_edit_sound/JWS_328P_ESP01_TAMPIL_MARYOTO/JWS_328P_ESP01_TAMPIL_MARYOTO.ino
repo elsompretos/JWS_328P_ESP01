@@ -16,12 +16,13 @@
 65 sesuaikan_bright : 10      | 69 sesuaikan_volume_adzan : 15
 
 71 Nama Masjid  : Masjid Raya Akbar Maulana - Ampera Raya
-171 Informasi 1 : Jadikan Sabar dan Sholat Sebagai Penolongmu
+121 Informasi 1 : Jadikan Sabar dan Sholat Sebagai Penolongmu
 221 Informasi 3 : Subhanallah Walhamdulillah Laailahaillalhah
 271 Informasi 4 : Selamat Hari Raya Idul Adha 10 Dzuhijjah 1442 H
 
 321 beep_status : 0
 
+Global variables use 856 bytes (41%) of dynamic memory, leaving 1192 bytes for local variables. Maximum is 2048 bytes.
 
 */
  
@@ -45,13 +46,11 @@ RTC_DS3231 rtc;
 
 unsigned long p_e_0_names=0, p_e_1_jam=0, p_e_2_hjry=0, p_e_4_jmsk=0, p_e_3_wksol=0, p_e_5_iqomah=0, p_e_6_lurus=0;
 byte evt_0 = 0, evt_1 = 0, evt_2 = 1, evt_3 = 1, evt_4 = 1, evt_5 = 1, evt_6 = 1;
-int iqm_ee, sis_wkt_iqo, du_iq, iqm_menit, iqm_menit_sisa, iqm_detik;
+int iqm_menit, iqm_detik;
 
 int b_a[8];
 int b_t[8];
-byte flag = 0, flag2 = 0;
-
-// String bnm_mesjid;
+byte flag = 0, flag_mp3 = 0; //flag_mp3 untuk getar pada saat masuk jam //flag2 = 0;
   
 int Tahun;
 byte Bulan, Tanggal, Jam, Menit, Detik, hariIni;
@@ -67,7 +66,6 @@ String wkt_iqomah, tpl_iqo_ss, namaMasukWkt, textIqohitmun, wkt_ims_sat;
 int b_bright, b_volume, b_volume_adzan;
 byte b_beep;
 
-int dur_tpl_tx_sol;
 String slt_sek;
 String cck;
 int  j_s_s = 0;
@@ -78,6 +76,7 @@ const char namaBulanMasehi[12][12] PROGMEM = {"Januari", "Februari", "Maret", "A
 const char namaHariMasehi[7][7] PROGMEM = {"Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"};
 const char namaWaktuSholat[8][12] PROGMEM = {"Imsak ", " Subuh ", " Terbit ", " Dhuha ", " Dzuhur ", " Ashar ", " Maghrib ", " Isya "};
 const char pesan[][60] PROGMEM = {"Matikan HP - Luruskan Shaf - Matikan HP - Luruskan Shaf"};
+// const char pesan_hariRaya[6][60] PROGMEM = {"Hari Maulid Nabi Muhammad SAW ", "Selamat Hari Raya Idul Fitri ", "Selamat Hari Raya Idul Adha ", "Jadikan Sabar dan Sholat Sebagai Penolongmu", "Selamat Tahun Baru Islam ", "Selamat Isra Miraj "};
 
 void scan(){
   display.refresh();
@@ -89,7 +88,6 @@ void setup(){
   
   EEPROM.get(67, b_volume); 
   EEPROM.get(69, b_volume_adzan);
-
   EEPROM.get(321, b_beep);
 
   
@@ -307,7 +305,7 @@ switch (mode) {
          Serial.println(tx_ser);
 
          String isi_info = tx_ser.substring(3,tx_ser.length());
-         writeString(171, isi_info);
+         writeString(121, isi_info);
          
          BUZZ();
        }
@@ -649,7 +647,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
   
   }
   else if(pilih == 6){ // ============= INFO 1
-    str_tanggal_hijriyah = readString(171); 
+    str_tanggal_hijriyah = readString(121); 
   }
   
   
@@ -703,6 +701,8 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
 void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
   
     WAKTU();
+    int dur_tpl_tx_sol;
+    EEPROM.get(321, b_beep);
     int b_lama_adzan;
     EEPROM.get(59, b_lama_adzan);
     int b_lama_imsak;
@@ -745,25 +745,7 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
       }*/
 
       if(dur_tpl_tx_sol < 10){ // imsak
-        if(wkt_msk_skrg==1){
-          if (b_beep == 1){
-          PORTD &= ~(1<<PORTD2);
-          delay(500);
-          PORTD |=(1<< PORTD2);
-          delay(500);
-          PORTD &= ~(1<<PORTD2);
-          }
-        }
-        else if(wkt_msk_skrg==2){
-          if (b_beep == 1){
-          PORTD &= ~(1<<PORTD2);
-          delay(500);
-          PORTD |=(1<< PORTD2);
-          delay(500);
-          PORTD &= ~(1<<PORTD2);
-          }
-        }
-        else if(wkt_msk_skrg==3 || wkt_msk_skrg==4 || wkt_msk_skrg==5 || wkt_msk_skrg==6){
+        if(wkt_msk_skrg==1 || wkt_msk_skrg==2 || wkt_msk_skrg==3 || wkt_msk_skrg==4 || wkt_msk_skrg==5 || wkt_msk_skrg==6){
           if (b_beep == 1){
           PORTD &= ~(1<<PORTD2);
           delay(500);
@@ -773,7 +755,6 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
           }
         }
       } else if(dur_tpl_tx_sol == 10){
-
         if (wkt_msk_skrg==2){
           mp3_set_volume(b_volume_adzan); 
           mp3_play (2);
@@ -782,10 +763,7 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
           mp3_set_volume(b_volume_adzan); 
           mp3_play (1);
         }
-        
       }
-      
-  
         display.clear();
         
         if (dur_tpl_tx_sol % 2 == 0){
@@ -839,9 +817,11 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
 }
 void TPL_QD_IQM(){                    // MENAMPILKAN IQOMAH
   WAKTU();
+   EEPROM.get(321, b_beep);
     j_s_s = 0;
 
-    int b_iqm_sbh, b_iqm_dzr, b_iqm_asr, b_iqm_mgr, b_iqm_isy;
+    int b_iqm_sbh, b_iqm_dzr, b_iqm_asr, b_iqm_mgr;
+    int b_iqm_isy, du_iq, iqm_ee, sis_wkt_iqo, iqm_menit_sisa;
     
     // Baca EEPROM tampil lama iqomah
     EEPROM.get(49, b_iqm_sbh);
@@ -1053,27 +1033,37 @@ void AMBIL_WAKTU_SHOLAT(){            // AMBIL WAKTU SHOLAT
       }
            
       if(Menit == 0 && Detik == 0){
-        
-        mp3_set_volume (b_volume);
-        
-        if (Jam == 1 || Jam == 13){ mp3_play (21); }
-        if (Jam == 2 || Jam == 14){ mp3_play (22); }
-        if (Jam == 3 || Jam == 15){ mp3_play (23); }
-        if (Jam == 4 || Jam == 16){ mp3_play (24); }
-        if (Jam == 5 || Jam == 17){ mp3_play (25); }
-        if (Jam == 6 || Jam == 18){ mp3_play (26); }
-        if (Jam == 7 || Jam == 19){ mp3_play (27); }
-        if (Jam == 8 || Jam == 20){ mp3_play (28); }
-        if (Jam == 9 || Jam == 21){ mp3_play (29); }
-        if (Jam == 10 || Jam == 22){ mp3_play (30); }
-        if (Jam == 11 || Jam == 23){ mp3_play (31); }
-        if (Jam == 12 || Jam == 0){ mp3_play (32); } 
+        if(flag_mp3 == 0){
+          mp3_set_volume (b_volume); 
+          if (Jam == 1 || Jam == 13){ mp3_play (21); }
+          else if (Jam == 2 || Jam == 14){ mp3_play (22); }
+          else if (Jam == 3 || Jam == 15){ mp3_play (23); }
+          else if (Jam == 4 || Jam == 16){ mp3_play (24); }
+          else if (Jam == 5 || Jam == 17){ mp3_play (25); }
+          else if (Jam == 6 || Jam == 18){ mp3_play (26); }
+          else if (Jam == 7 || Jam == 19){ mp3_play (27); }
+          else if (Jam == 8 || Jam == 20){ mp3_play (28); }
+          else if (Jam == 9 || Jam == 21){ mp3_play (29); }
+          else if (Jam == 10 || Jam == 22){ mp3_play (30); }
+          else if (Jam == 11 || Jam == 23){ mp3_play (31); }
+          else if (Jam == 12 || Jam == 0){ mp3_play (32); } 
+          flag_mp3 = 1;
+        }    
       }
       
       if(Menit == 30 && Detik == 0){
-         mp3_set_volume (b_volume); 
-         mp3_play (34); 
+          if(flag_mp3 == 0){
+            mp3_set_volume (b_volume); 
+            mp3_play (34); 
+            flag_mp3 = 1;
+          }
       }
+
+      if(Detik == 3){
+        flag_mp3 = 0;
+      }
+
+      
 }
 void CERAH_VOLUME(){
   EEPROM.get(65, b_bright); // Baca EEPROM kecerahan
