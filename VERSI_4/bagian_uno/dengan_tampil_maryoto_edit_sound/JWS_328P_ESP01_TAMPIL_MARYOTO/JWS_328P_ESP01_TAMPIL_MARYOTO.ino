@@ -22,7 +22,7 @@
 
 321 beep_status : 0
 
-Global variables use 856 bytes (41%) of dynamic memory, leaving 1192 bytes for local variables. Maximum is 2048 bytes.
+Global variables use 857 bytes (41%) of dynamic memory, leaving 1192 bytes for local variables. Maximum is 2048 bytes.
 
 */
  
