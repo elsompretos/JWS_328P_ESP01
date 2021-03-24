@@ -46,7 +46,7 @@ RTC_DS3231 rtc;
 
 unsigned long p_e_0_names=0, p_e_1_jam=0, p_e_2_hjry=0, p_e_4_jmsk=0, p_e_3_wksol=0, p_e_5_iqomah=0, p_e_6_lurus=0;
 byte evt_0 = 0, evt_1 = 0, evt_2 = 1, evt_3 = 1, evt_4 = 1, evt_5 = 1, evt_6 = 1;
-int iqm_menit, iqm_detik;
+int iqm_ee, sis_wkt_iqo, du_iq, iqm_menit, iqm_menit_sisa, iqm_detik;
 
 int b_a[8];
 int b_t[8];
@@ -66,6 +66,7 @@ String wkt_iqomah, tpl_iqo_ss, namaMasukWkt, textIqohitmun, wkt_ims_sat;
 int b_bright, b_volume, b_volume_adzan;
 byte b_beep;
 
+int dur_tpl_tx_sol; 
 String slt_sek;
 String cck;
 int  j_s_s = 0;
@@ -186,7 +187,7 @@ switch (mode) {
     if (tx_ser.length() > 0){
         // Setting Jam === SJ=23-59-55-24-05-2020-01-15-20   SJ=23-59-20-08-11-2019-01-15-20 4 digit terakhir (10-15) = brightness-volume
         // SJ=23-59-55-24-05-2020-01-15-20-15     -15 = volume adzan
-        // SJ=12:49-00-22-03-2021-01-12-22-02-00  -00 = beep status
+        // SJ=04-30-50-24-03-2021-01-12-20-00-00  -00 = beep status
 
         if(tx_ser.substring(0,2) == "SJ"){
           Serial.println(tx_ser);
@@ -701,7 +702,7 @@ void TPL_HH_TGL(int pilih){           // MENAMPILKAN TANGGAL HIJRIYAH
 void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
   
     WAKTU();
-    int dur_tpl_tx_sol;
+//    int dur_tpl_tx_sol;
     EEPROM.get(321, b_beep);
     int b_lama_adzan;
     EEPROM.get(59, b_lama_adzan);
@@ -745,7 +746,25 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
       }*/
 
       if(dur_tpl_tx_sol < 10){ // imsak
-        if(wkt_msk_skrg==1 || wkt_msk_skrg==2 || wkt_msk_skrg==3 || wkt_msk_skrg==4 || wkt_msk_skrg==5 || wkt_msk_skrg==6){
+        if(wkt_msk_skrg==1){
+          if (b_beep == 1){
+          PORTD &= ~(1<<PORTD2);
+          delay(500);
+          PORTD |=(1<< PORTD2);
+          delay(500);
+          PORTD &= ~(1<<PORTD2);
+          }
+        }
+        else if(wkt_msk_skrg==2){
+          if (b_beep == 1){
+          PORTD &= ~(1<<PORTD2);
+          delay(500);
+          PORTD |=(1<< PORTD2);
+          delay(500);
+          PORTD &= ~(1<<PORTD2);
+          }
+        }
+        else if(wkt_msk_skrg==3 || wkt_msk_skrg==4 || wkt_msk_skrg==5 || wkt_msk_skrg==6){
           if (b_beep == 1){
           PORTD &= ~(1<<PORTD2);
           delay(500);
@@ -755,6 +774,7 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
           }
         }
       } else if(dur_tpl_tx_sol == 10){
+
         if (wkt_msk_skrg==2){
           mp3_set_volume(b_volume_adzan); 
           mp3_play (2);
@@ -763,6 +783,7 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
           mp3_set_volume(b_volume_adzan); 
           mp3_play (1);
         }
+        
       }
         display.clear();
         
@@ -820,8 +841,7 @@ void TPL_QD_IQM(){                    // MENAMPILKAN IQOMAH
    EEPROM.get(321, b_beep);
     j_s_s = 0;
 
-    int b_iqm_sbh, b_iqm_dzr, b_iqm_asr, b_iqm_mgr;
-    int b_iqm_isy, du_iq, iqm_ee, sis_wkt_iqo, iqm_menit_sisa;
+    int b_iqm_sbh, b_iqm_dzr, b_iqm_asr, b_iqm_mgr, b_iqm_isy;
     
     // Baca EEPROM tampil lama iqomah
     EEPROM.get(49, b_iqm_sbh);
