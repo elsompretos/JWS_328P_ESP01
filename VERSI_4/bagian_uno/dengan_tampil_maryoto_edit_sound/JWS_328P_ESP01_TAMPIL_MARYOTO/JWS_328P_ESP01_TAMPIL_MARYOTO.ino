@@ -24,6 +24,8 @@
 
 Global variables use 857 bytes (41%) of dynamic memory, leaving 1192 bytes for local variables. Maximum is 2048 bytes.
 
+Global variables use 863 bytes (42%) of dynamic memory, leaving 1185 bytes for local variables. Maximum is 2048 bytes. (PC BARU)
+
 */
  
 #include <DMD3asis.h>
@@ -289,7 +291,7 @@ switch (mode) {
          BUZZ();
        }
 
-       // Setting Nama masjid === NM=Masjid Raya Akbar Maulana - Ampera Raya // NM=Musholah Tetep Iman Alm.Hj.Sri Loeloet
+       // Setting Nama masjid === NM=Masjid Raya Akbar Maulana - Ampera Raya // NM=Musholah "Tetep Iman" Almh.Hj.Sri Loeloet
 
 
        else if(tx_ser.substring(0,2) == "NM"){
