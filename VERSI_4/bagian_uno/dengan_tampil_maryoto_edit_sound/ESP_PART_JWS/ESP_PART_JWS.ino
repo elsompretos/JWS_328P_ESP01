@@ -5,7 +5,6 @@ NM=Masjid Akbar Maulana
 IN=Sudahkah Anda Sholat
 IQ=01-01-01-01-01-04
 KR=02-02-02-02-02-02-02-02
-
  */
 
 #include <SPI.h>
