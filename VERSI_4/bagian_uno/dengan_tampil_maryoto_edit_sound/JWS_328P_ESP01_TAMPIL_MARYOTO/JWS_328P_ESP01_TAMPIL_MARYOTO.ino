@@ -779,11 +779,13 @@ void TPL_HH_WKT_MSK(){                // MENAMPILKAN WAKTU MASUK ADZAN
 
         if (wkt_msk_skrg==2){
           mp3_set_volume(b_volume_adzan); 
-          mp3_play (2);
+          //mp3_play (2);
+          mp3_play (38);
         }
         else if (wkt_msk_skrg==3 || wkt_msk_skrg==4 || wkt_msk_skrg==5 || wkt_msk_skrg==6){
           mp3_set_volume(b_volume_adzan); 
-          mp3_play (1);
+          //mp3_play (1);
+          mp3_play (37);
         }
         
       }
